@@ -1,0 +1,4 @@
+StripFold
+=========
+
+Strip Folding test
