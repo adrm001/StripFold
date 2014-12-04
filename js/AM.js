@@ -27,9 +27,9 @@ AM.Test.prototype = {
         this.foldIndex = 0;
     },
     unfold: function () {
-        if(this.foldIndex > 0 && this.foldIndex <= this.edges.length-2) {
+        /*if(this.foldIndex > 0 && this.foldIndex <= this.edges.length-2) {
             this.edges[this.foldIndex].fold();
-        }
+        }		
 
         this.foldIndex += this.delta;
 
@@ -38,7 +38,12 @@ AM.Test.prototype = {
         }
         if(this.foldIndex===0){
             this.delta=1;
-        }
+        }*/
+		/*for(var i=1;i<this.edges.length-1;i++)
+		{
+			this.edges[i].fold();
+		}*/
+		this.edges[1].fold();
 
     }
 };
@@ -171,8 +176,10 @@ AM.Edge = function (top, bot, prev) {
     this.bot = bot;
     this.prev = prev;
     if (prev) {
-        prev.next = this;
-        this.poly = svg.polygon(this.polyArr()).fill('green').stroke({width: 2, color: "red"});
+        prev.next = this;		
+        this.poly = svg.polygon(this.polyArr()).stroke({width: 2, color: "red"});
+		this.sideUp = !prev.sideUp;
+		this.colorPoly();
     }
     this.line = new AM.Math.Line(top, bot);
 };
@@ -184,7 +191,18 @@ AM.Edge.prototype = {
     next: null,
     line: null,
     poly: null,
+	sideUp: true,	
 
+	colorPoly: function(){
+		if(this.sideUp)
+		{
+			this.poly.fill('green');
+		}
+		else
+		{
+			this.poly.fill('blue');
+		}
+	},
     removeSVG: function () {
         if (this.poly) {
             this.poly.remove();
@@ -203,22 +221,40 @@ AM.Edge.prototype = {
             [d.x, d.y]
         ];
     },
-    fold: function (line) {
+    fold: function (line,cb) {
         if (line) {
-            this.top = this.top.add(line.vector2LineFromPoint(this.top).scale(2));
-            this.bot = this.bot.add(line.vector2LineFromPoint(this.bot).scale(2));
-            this.line = new AM.Math.Line(this.top, this.bot);
+			
+			var topvec = line.vector2LineFromPoint(this.top).scale(2);
+			var botvec = line.vector2LineFromPoint(this.bot).scale(2);
+            this.top = this.top.add(topvec);
+            this.bot = this.bot.add(botvec);            
+			this.line = new AM.Math.Line(this.top, this.bot);
+			var flipped = false;
+			this.poly.animate(250).plot(this.polyArr()).during(function(pos){
+				if(pos>=.5&&!flipped){
+					flipped = true;
+					this.sideUp = !this.sideUp;
+					this.colorPoly();
+				}				
+			}.bind(this)).after(function(){
+				if(!this.next&&cb){
+					cb();
+				}
+			}.bind(this));			
         }
         else {
             line = this.line;
-        }
-        if(this.poly) {
-            this.poly.plot(this.polyArr());
-        }
+			cb = this.foldNext.bind(this);
+        }        
         if (this.next) {
-            this.next.fold(line);
+            this.next.fold(line,cb);
+        }	
+    },
+	foldNext: function(){
+		if (this.next) {
+            this.next.fold();
         }
-    }
+	}
 };
 
 var hooks = new AM.Test();
