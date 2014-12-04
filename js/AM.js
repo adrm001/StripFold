@@ -177,7 +177,12 @@ AM.Edge = function (top, bot, prev) {
     this.prev = prev;
     if (prev) {
         prev.next = this;		
-        this.poly = svg.polygon(this.polyArr()).stroke({width: 2, color: "red"});
+        this.shadow = svg.polygon(this.polyArr()).stroke({width: 2, color: "red"});
+		this.poly = this.shadow.clone();
+		this.shadow.filter(function(add){
+			var blur = add.offset(5, 5).in(add.sourceAlpha).gaussianBlur(1);
+			//add.blend(add.source, blur);			
+		});
 		this.sideUp = !prev.sideUp;
 		this.colorPoly();
     }
@@ -191,6 +196,7 @@ AM.Edge.prototype = {
     next: null,
     line: null,
     poly: null,
+	shadow: null,
 	sideUp: true,	
 
 	colorPoly: function(){
