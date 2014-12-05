@@ -12,19 +12,31 @@ AM.Test.prototype = {
     delta: 1,
 
     addPoint: function Test$addPoint() {
+        this.showPoints();
         this.points[this.points.length] = new AM.SvgPoint(this.points[this.points.length - 1]);
     },
     createStrip: function Test$createStrip() {
-        this.edges.forEach(function (elem, index, array) {
+        this.hidePoints();
+        this.edges.forEach(function (elem) {
             elem.removeSVG();
         });
         this.edges = [];
         var prev = null;
-        this.points.forEach(function (elem, index, array) {
+        this.points.forEach(function (elem) {
             this.edges[this.edges.length] = new AM.Edge(elem.fPointA, elem.fPointB, prev);
             prev = this.edges[this.edges.length - 1];
         }, this);
         this.foldIndex = 0;
+    },
+    hidePoints: function() {
+        this.points.forEach(function (elem) {
+           elem.hide();
+        });
+    },
+    showPoints: function() {
+        this.points.forEach(function (elem) {
+            elem.show();
+        });
     },
     unfold: function () {
         /*if(this.foldIndex > 0 && this.foldIndex <= this.edges.length-2) {
@@ -90,6 +102,26 @@ AM.SvgPoint.prototype = {
     ntl: null,
     nbl: null,
 
+    hide: function(){
+        var arr=[];
+        arr[0] = this.circle;
+        arr[1] = this.pLine;
+        arr[2] = this.fold;
+        arr[3] = this.ptl;
+        arr[4] = this.pbl;
+
+        arr.forEach(function(e){if(e){e.hide();}});
+    },
+    show: function(){
+        var arr=[];
+        arr[0] = this.circle;
+        arr[1] = this.pLine;
+        arr[2] = this.fold;
+        arr[3] = this.ptl;
+        arr[4] = this.pbl;
+
+        arr.forEach(function(e){if(e){e.show();}});
+    },
     dragMove: function (delta, event) {
         this.point.x = this.circle.cx();
         this.point.y = this.circle.cy();
@@ -180,9 +212,12 @@ AM.Edge = function (top, bot, prev) {
         this.shadow = svg.polygon(this.polyArr()).stroke({width: 2, color: "red"});
 		this.poly = this.shadow.clone();
 		this.shadow.filter(function(add){
-			var blur = add.offset(5, 5).in(add.sourceAlpha).gaussianBlur(1);
-			//add.blend(add.source, blur);			
+			add.offset(-5, 5).in(add.sourceAlpha).gaussianBlur(5);
+			//add.blend(add.source, blur);
+           this.size('200%','200%').move('-50%', '-50%');
+           SVG.Element.prototype.stroke.call(this,{width: 2, color: "yellow"});
 		});
+        this.shadow.stroke({width: 2, color: "yellow"});
 		this.sideUp = !prev.sideUp;
 		this.colorPoly();
     }
@@ -236,6 +271,7 @@ AM.Edge.prototype = {
             this.bot = this.bot.add(botvec);            
 			this.line = new AM.Math.Line(this.top, this.bot);
 			var flipped = false;
+            this.shadow.animate(250).plot(this.polyArr());
 			this.poly.animate(250).plot(this.polyArr()).during(function(pos){
 				if(pos>=.5&&!flipped){
 					flipped = true;
@@ -272,4 +308,4 @@ AM.Load = function () {
     svg = SVG("drawing");
     angleSpan = document.getElementById("angle");
     dotSpan = document.getElementById("dot");
-}
+};
