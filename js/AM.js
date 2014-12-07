@@ -57,7 +57,30 @@ AM.Test.prototype = {
 		}*/
 		this.edges[1].fold();
 
+  },
+  arrange: function(){
+    var min = 1000000;
+    var col = [];
+    this.edges.forEach(function(e){min = e.zIndex<min?e.zIndex:min});
+    for(var i = 1; i < this.edges.length;i++){
+    var e = this.edges[i];
+      if(!col[e.zIndex-min]){col[e.zIndex-min]=[];}
+      col[e.zIndex-min].push(e);
     }
+    for(var i = 0; i < col.length;i++){
+      var row = col[i];
+      if(row){
+        for(var j = 0; j < row.length;j++){
+          var edge = row[j];
+          edge.shadow.front();
+        }
+        for(var j = 0; j < row.length;j++){
+          var edge = row[j];
+          edge.poly.front();
+        }
+      }
+    }
+  }
 };
 
 AM.SvgPoint = function (prev) {
@@ -208,21 +231,21 @@ AM.Edge = function (top, bot, prev) {
     this.bot = bot;
     this.prev = prev;
     if (prev) {
-        prev.next = this;		
-        this.shadow = svg.polygon(this.polyArr()).stroke({width: 2, color: "red"});
-		this.poly = this.shadow.clone();
-		this.shadow.filter(function(add){
-			add.offset(-5, 5).in(add.sourceAlpha).gaussianBlur(5);
-			//add.blend(add.source, blur);
-           this.size('200%','200%').move('-50%', '-50%');
-           SVG.Element.prototype.stroke.call(this,{width: 2, color: "yellow"});
-		});
-        this.shadow.stroke({width: 2, color: "yellow"});
-		this.sideUp = !prev.sideUp;
-		this.colorPoly();
+      prev.next = this;		
+      this.shadow = svg.polygon(this.polyArr());//.stroke({width: 2, color: "red"});
+      this.poly = this.shadow.clone();
+      this.shadow.filter(function(add){
+        add.offset(0, 0).in(add.sourceAlpha).gaussianBlur(2);
+        //add.blend(add.source, blur);
+        this.size('200%','200%').move('-50%', '-50%');
+      });
+      this.z = prev.z + 1;
+      this.sideUp = !prev.sideUp;
+      this.colorPoly();
     }
     this.line = new AM.Math.Line(top, bot);
-};
+    this.zIndex = this.z;
+};  
 
 AM.Edge.prototype = {
     top: null,
@@ -231,9 +254,10 @@ AM.Edge.prototype = {
     next: null,
     line: null,
     poly: null,
-	shadow: null,
-	sideUp: true,	
-
+    shadow: null,
+    sideUp: true,	
+    z:0, 
+    zIndex:0,
 	colorPoly: function(){
 		if(this.sideUp)
 		{
@@ -244,58 +268,69 @@ AM.Edge.prototype = {
 			this.poly.fill('blue');
 		}
 	},
-    removeSVG: function () {
-        if (this.poly) {
-            this.poly.remove();
-        }
-    },
-    polyArr: function () {
-        var a = this.prev.top;
-        var b = this.prev.bot;
-        var c = this.top;
-        var d = this.bot;
+  removeSVG: function () {
+      if (this.poly) {
+          this.poly.remove();
+      }
+  },
+  polyArr: function () {
+      var a = this.prev.top;
+      var b = this.prev.bot;
+      var c = this.top;
+      var d = this.bot;
 
-        return [
-            [a.x, a.y],
-            [b.x, b.y],
-            [c.x, c.y],
-            [d.x, d.y]
-        ];
-    },
-    fold: function (line,cb) {
-        if (line) {
-			
-			var topvec = line.vector2LineFromPoint(this.top).scale(2);
-			var botvec = line.vector2LineFromPoint(this.bot).scale(2);
-            this.top = this.top.add(topvec);
-            this.bot = this.bot.add(botvec);            
-			this.line = new AM.Math.Line(this.top, this.bot);
-			var flipped = false;
-            this.shadow.animate(250).plot(this.polyArr());
-			this.poly.animate(250).plot(this.polyArr()).during(function(pos){
-				if(pos>=.5&&!flipped){
-					flipped = true;
-					this.sideUp = !this.sideUp;
-					this.colorPoly();
-				}				
-			}.bind(this)).after(function(){
-				if(!this.next&&cb){
-					cb();
-				}
-			}.bind(this));			
+      return [
+          [a.x, a.y],
+          [b.x, b.y],
+          [c.x, c.y],
+          [d.x, d.y]
+      ];
+  },
+  fold: function (line,cb) {
+    if (line) {    
+      var topvec = line.vector2LineFromPoint(this.top).scale(2);
+      var botvec = line.vector2LineFromPoint(this.bot).scale(2);
+      this.top = this.top.add(topvec);
+      this.bot = this.bot.add(botvec);            
+      this.line = new AM.Math.Line(this.top, this.bot);
+      var flipped = false;
+      this.shadow.animate(2500).plot(this.polyArr());
+      this.poly.animate(2500).plot(this.polyArr()).during(function(pos){
+        if(pos>=.5&&!flipped){
+          flipped = true;
+          this.sideUp = !this.sideUp;
+          if(this.zIndex > 0){
+            this.zIndex = -(this.zIndex - 1);
+          }
+          else if (this.zIndex < 0){
+            this.zIndex = -(this.zIndex + 1);
+          }
+          else if (this.zIndex === 0){
+            this.zIndex = this.z;
+          }
+          this.colorPoly();
+          if(!this.next){
+            hooks.arrange();
+          }
+        }				
+      }.bind(this)).after(function(){
+        if(!this.next&&cb){
+          cb();
         }
-        else {
-            line = this.line;
-			cb = this.foldNext.bind(this);
-        }        
-        if (this.next) {
-            this.next.fold(line,cb);
-        }	
-    },
+      }.bind(this));			
+    }
+    else {
+      line = this.line;
+      cb = this.foldNext.bind(this);
+    }        
+    if (this.next) {
+      this.next.fold(line,cb);
+    }	
+  },
 	foldNext: function(){
 		if (this.next) {
-            this.next.fold();
-        }
+      this.next.fold();
+    }
 	}
 };
 
@@ -305,7 +340,7 @@ var width = 15;
 var angleSpan = null;
 var dotSpan = null;
 AM.Load = function () {
-    svg = SVG("drawing");
-    angleSpan = document.getElementById("angle");
-    dotSpan = document.getElementById("dot");
+  svg = SVG("drawing");
+  angleSpan = document.getElementById("angle");
+  dotSpan = document.getElementById("dot");
 };
