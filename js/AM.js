@@ -8,8 +8,7 @@ AM.Test = function () {
 AM.Test.prototype = {
     points: [],
     edges: [],
-    foldIndex: 0,
-    delta: 1,
+    folded: true,
 
     addPoint: function Test$addPoint() {
         this.showPoints();
@@ -39,25 +38,16 @@ AM.Test.prototype = {
         });
     },
     unfold: function () {
-        /*if(this.foldIndex > 0 && this.foldIndex <= this.edges.length-2) {
-            this.edges[this.foldIndex].fold();
-        }		
-
-        this.foldIndex += this.delta;
-
-        if(this.foldIndex === this.edges.length) {
-            this.delta=-1;
-        }
-        if(this.foldIndex===0){
-            this.delta=1;
-        }*/
-		/*for(var i=1;i<this.edges.length-1;i++)
-		{
-			this.edges[i].fold();
-		}*/
-		this.edges[1].fold();
-
-  },
+      this.edges[0].rotate(new AM.Math.Vec2d(250,250),AM.Math.ToRad(90));
+      if(this.folded){
+        this.edges[1].fold(AM.Edge.unfold);
+        this.folded=false;
+      }else{
+        this.edges[1].fold(AM.Edge.fold);
+        this.folded=true;
+      }
+      
+    },
   arrange: function(){
     var min = 1000000;
     var col = [];
@@ -232,21 +222,35 @@ AM.Edge = function (top, bot, prev) {
     this.prev = prev;
     if (prev) {
       prev.next = this;		
-      this.shadow = svg.polygon(this.polyArr());//.stroke({width: 2, color: "red"});
+      this.shadow = svg.polygon(this.polyArr()).stroke({width: 1});
       this.poly = this.shadow.clone();
       this.shadow.filter(function(add){
         add.offset(0, 0).in(add.sourceAlpha).gaussianBlur(2);
         //add.blend(add.source, blur);
         this.size('200%','200%').move('-50%', '-50%');
       });
+      //this.shadow.hide();
       this.z = prev.z + 1;
+      this.zIndex = this.z;
+      this.zText = svg.plain(this.zIndex);
+      this.zText.move(10,(this.top.y+this.bot.y)/2);
       this.sideUp = !prev.sideUp;
       this.colorPoly();
     }
     this.line = new AM.Math.Line(top, bot);
     this.zIndex = this.z;
 };  
-
+AM.Edge.unfold=function(edge){
+  if(edge.zIndex >= 0){
+    edge.zIndex = -(edge.zIndex - 1);
+  }
+  else if (edge.zIndex < 0){
+    edge.zIndex = -(edge.zIndex + 1);
+  }
+};
+AM.Edge.fold=function(edge){
+  edge.zIndex++;
+};
 AM.Edge.prototype = {
     top: null,
     bot: null,
@@ -256,17 +260,23 @@ AM.Edge.prototype = {
     poly: null,
     shadow: null,
     sideUp: true,	
-    z:0, 
-    zIndex:0,
+    z:-1, 
+    zIndex:-1,
+    zText:null,
 	colorPoly: function(){
 		if(this.sideUp)
 		{
 			this.poly.fill('green');
+      this.poly.stroke('green');
 		}
 		else
 		{
 			this.poly.fill('blue');
+      this.poly.stroke('blue');
 		}
+    this.zText.clear();
+    this.zText.plain(this.zIndex);
+    
 	},
   removeSVG: function () {
       if (this.poly) {
@@ -286,7 +296,20 @@ AM.Edge.prototype = {
           [d.x, d.y]
       ];
   },
-  fold: function (line,cb) {
+  rotate: function(center, angle){
+    
+    this.top = this.top.subtract(center).rotate(angle).add(center);
+    this.bot = this.bot.subtract(center).rotate(angle).add(center);
+    this.line = new AM.Math.Line(this.top, this.bot);
+    if(this.poly){
+      this.shadow.animate(250).plot(this.polyArr());
+      this.poly.animate(250).plot(this.polyArr());
+    }
+    if(this.next){
+      this.next.rotate(center,angle);
+    }
+  },
+  fold: function (zFunc,line,cb) {
     if (line) {    
       var topvec = line.vector2LineFromPoint(this.top).scale(2);
       var botvec = line.vector2LineFromPoint(this.bot).scale(2);
@@ -294,20 +317,12 @@ AM.Edge.prototype = {
       this.bot = this.bot.add(botvec);            
       this.line = new AM.Math.Line(this.top, this.bot);
       var flipped = false;
-      this.shadow.animate(2500).plot(this.polyArr());
-      this.poly.animate(2500).plot(this.polyArr()).during(function(pos){
+      this.shadow.animate(250).plot(this.polyArr());
+      this.poly.animate(250).plot(this.polyArr()).during(function(pos){
         if(pos>=.5&&!flipped){
           flipped = true;
           this.sideUp = !this.sideUp;
-          if(this.zIndex > 0){
-            this.zIndex = -(this.zIndex - 1);
-          }
-          else if (this.zIndex < 0){
-            this.zIndex = -(this.zIndex + 1);
-          }
-          else if (this.zIndex === 0){
-            this.zIndex = this.z;
-          }
+          zFunc(this);
           this.colorPoly();
           if(!this.next){
             hooks.arrange();
@@ -321,15 +336,15 @@ AM.Edge.prototype = {
     }
     else {
       line = this.line;
-      cb = this.foldNext.bind(this);
+      cb = this.foldNext.bind(this,zFunc);
     }        
     if (this.next) {
-      this.next.fold(line,cb);
+      this.next.fold(zFunc,line,cb);
     }	
   },
-	foldNext: function(){
+	foldNext: function(zFunc){
 		if (this.next) {
-      this.next.fold();
+      this.next.fold(zFunc);
     }
 	}
 };
