@@ -72,26 +72,31 @@ AM.Math.Line.prototype = {
     }
 };
 
-AM.Math.Mat2d = function(e00, e01, e10, e11){
-	
-	this.mat = [[e00,e01],
-	            [e10,e11]];
+AM.Math.Mat2d = function (e00, e01, e10, e11) {
+
+    this.mat = [
+        [e00, e01],
+        [e10, e11]
+    ];
 };
 
 AM.Math.Mat2d.prototype = {
-	mat:[[0,0],[0,0]],
-	
-	mult: function(m){
-		var e00 = this.mat[0][0]*m.mat[0][0] + this.mat[0][1]*m.mat[1][0];
-		var e01 = this.mat[0][0]*m.mat[0][1] + this.mat[0][1]*m.mat[1][1];
-		var e10 = this.mat[1][0]*m.mat[0][0] + this.mat[1][1]*m.mat[1][0];
-		var e11 = this.mat[1][0]*m.mat[0][1] + this.mat[1][1]*m.mat[1][1];
-		
-		return new AM.Math.Mat2d(e00, e01, e10, e11);
-	},
-	multVec: function(v){
-		var x = this.mat[0][0]*v.x + this.mat[0][1]*v.y;
-		var y = this.mat[1][0]*v.x + this.mat[1][1]*v.y;
-		return new AM.Math.Vec2d(x,y);
-	}
+    mat: [
+        [0, 0],
+        [0, 0]
+    ],
+
+    mult: function (m) {
+        var e00 = this.mat[0][0] * m.mat[0][0] + this.mat[0][1] * m.mat[1][0];
+        var e01 = this.mat[0][0] * m.mat[0][1] + this.mat[0][1] * m.mat[1][1];
+        var e10 = this.mat[1][0] * m.mat[0][0] + this.mat[1][1] * m.mat[1][0];
+        var e11 = this.mat[1][0] * m.mat[0][1] + this.mat[1][1] * m.mat[1][1];
+
+        return new AM.Math.Mat2d(e00, e01, e10, e11);
+    },
+    multVec: function (v) {
+        var x = this.mat[0][0] * v.x + this.mat[0][1] * v.y;
+        var y = this.mat[1][0] * v.x + this.mat[1][1] * v.y;
+        return new AM.Math.Vec2d(x, y);
+    }
 }
