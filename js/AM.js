@@ -129,7 +129,7 @@ AM.SvgPoint.prototype = {
     hide: function () {
         var arr = [];
         arr[0] = this.circle;
-        //arr[1] = this.pLine;
+        arr[1] = this.pLine;
         arr[2] = this.fold;
         arr[3] = this.ptl;
         arr[4] = this.pbl;
@@ -138,15 +138,12 @@ AM.SvgPoint.prototype = {
             if (e) {
                 e.hide();
             }
-        });
-        if(this.tt){
-        this.tt.show();
-        }
+        });        
     },
     show: function () {
         var arr = [];
         arr[0] = this.circle;
-        //arr[1] = this.pLine;
+        arr[1] = this.pLine;
         arr[2] = this.fold;
         arr[3] = this.ptl;
         arr[4] = this.pbl;
@@ -155,10 +152,7 @@ AM.SvgPoint.prototype = {
             if (e) {
                 e.show();
             }
-        });
-        if(this.tt){
-          this.tt.hide();
-        }
+        });        
     },
     dragMove: function (delta, event) {
         this.point.x = this.circle.cx();
@@ -197,22 +191,18 @@ AM.SvgPoint.prototype = {
             dir = this.prev.point.subtract(this.point).norm();
         } else {
             dir = this.point.subtract(this.next.point).norm().scale(-1);
-        }
-        var t;
+        }        
         var cross;
         if (this.next && this.prev) {
             var otherDir = this.next.point.subtract(this.point).norm();
             angle = (Math.PI - dir.angle(otherDir)) / 2;
             dot = dir.dot(otherDir);
-            var cross = dir.cross(otherDir);
-            t = dir.rotate(angle + AM.Math.ToRad(90)).scale(-15);
+            var cross = dir.cross(otherDir);            
             if (cross > 0) {
-                angle = -angle;
-                t = dir.rotate(angle - AM.Math.ToRad(90)).scale(-15);
+                angle = -angle;                
             }
         } else {
-            angle = AM.Math.ToRad(90);
-            t = dir.rotate(angle + AM.Math.ToRad(90)).scale(-15);
+            angle = AM.Math.ToRad(90);         
         }
         angleSpan.innerHTML = AM.Math.ToDeg(angle);
         dotSpan.innerHTML = dot;
@@ -222,25 +212,6 @@ AM.SvgPoint.prototype = {
         this.fPointA = this.point.add(foldA);
         this.fPointB = this.point.add(foldB);
         
-        
-        
-        var a = this.fPointA;
-        var b = this.fPointB;
-        var c = this.fPointB.add(t);
-        var d = this.fPointA.add(t);
-
-        arr =[
-            [a.x, a.y],
-            [b.x, b.y],
-            [c.x, c.y],
-            [d.x, d.y]
-        ];
-        if (this.tt){
-          this.tt.plot(arr);
-        }else{
-          this.tt = svg.polygon(arr).fill('black');
-          this.tt.hide();
-        }
 
         if (this.fold) {
             this.fold.plot(this.fPointA.x, this.fPointA.y, this.fPointB.x, this.fPointB.y);
@@ -272,6 +243,7 @@ AM.Edge = function (top, bot, prev) {
     this.prev = prev;
     if (prev) {
         prev.next = this;
+		this.bundle = new AM.Bundle(this.prev.top,this.prev.bot,this.top,this.bot);
         this.shadow = svg.polygon(this.polyArr()).stroke({width: 1});
         this.poly = this.shadow.clone();
         this.shadow.filter(function (add) {
@@ -306,6 +278,7 @@ AM.Edge.prototype = {
     line: null,
     poly: null,
     shadow: null,
+	bundle: null,
     sideUp: true,
     z: -1,
     zIndex: -1,
@@ -397,6 +370,24 @@ AM.Edge.prototype = {
             this.next.fold(zFunc);
         }
     }
+};
+
+AM.Bundle = function(a,b,c,d){
+	var mid = AM.Math.Line.Intersection(a,c,b,d);
+	this.paths = [];
+	if(mid){
+		var num = 50;		
+		for(var i = 0;i<num;i++){
+			var p1 = AM.Math.Vec2d.lerp(a,b,Math.random());
+			var p2 = AM.Math.Vec2d.lerp(c,d,Math.random());
+			var c1 = AM.Math.Vec2d.lerp(a,mid,Math.random());
+			var c2 = AM.Math.Vec2d.lerp(mid,d,Math.random());			
+			
+			var color = '#'+ (Math.random().toString(16) + '000000').slice(2, 8);
+			var path = "M " + p1.x + " " + p1.y + " C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " +p2.x + " " + p2.y;
+			this.paths.push(svg.path(path).fill('none').stroke({color:color,opacity:Math.random(),width:2}));
+		}
+	}
 };
 
 var hooks = new AM.Test();

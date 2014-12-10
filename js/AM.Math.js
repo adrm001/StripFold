@@ -10,7 +10,9 @@ AM.Math.Vec2d = function (x, y) {
     this.x = x;
     this.y = y;
 };
-
+AM.Math.Vec2d.lerp = function(v1,v2,t){
+	return v1.scale(1-t).add(v2.scale(t));
+}
 AM.Math.Vec2d.prototype = {
     x: 0,
     y: 0,
@@ -59,7 +61,15 @@ AM.Math.Line = function (pointA, pointB) {
     this.N = pointB.subtract(pointA).norm();
     this.A = pointA;
 };
-
+AM.Math.Line.Intersection = function(a1,a2,b1,b2){
+	var det = (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - a2.y)*(b1.x - b2.x);
+	if(Math.abs(det) > .0001){
+		var xNum = (a1.x*a2.y - a1.y*a2.x)*(b1.x - b2.x) - (a1.x - a2.x)*(b1.x*b2.y - b1.y*b2.x);
+		var yNum = (a1.x*a2.y - a1.y*a2.x)*(b1.y - b2.y) - (a1.y - a2.y)*(b1.x*b2.y - b1.y*b2.x);
+		return new AM.Math.Vec2d(xNum/det,yNum/det);
+	}
+	return null;
+};
 AM.Math.Line.prototype = {
     N: null,
     A: null,
