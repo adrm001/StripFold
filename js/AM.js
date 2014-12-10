@@ -124,11 +124,12 @@ AM.SvgPoint.prototype = {
     pbl: null,
     ntl: null,
     nbl: null,
+    mark: null,
 
     hide: function () {
         var arr = [];
         arr[0] = this.circle;
-        arr[1] = this.pLine;
+        //arr[1] = this.pLine;
         arr[2] = this.fold;
         arr[3] = this.ptl;
         arr[4] = this.pbl;
@@ -138,11 +139,14 @@ AM.SvgPoint.prototype = {
                 e.hide();
             }
         });
+        if(this.tt){
+        this.tt.show();
+        }
     },
     show: function () {
         var arr = [];
         arr[0] = this.circle;
-        arr[1] = this.pLine;
+        //arr[1] = this.pLine;
         arr[2] = this.fold;
         arr[3] = this.ptl;
         arr[4] = this.pbl;
@@ -152,6 +156,9 @@ AM.SvgPoint.prototype = {
                 e.show();
             }
         });
+        if(this.tt){
+          this.tt.hide();
+        }
     },
     dragMove: function (delta, event) {
         this.point.x = this.circle.cx();
@@ -191,16 +198,21 @@ AM.SvgPoint.prototype = {
         } else {
             dir = this.point.subtract(this.next.point).norm().scale(-1);
         }
+        var t;
+        var cross;
         if (this.next && this.prev) {
             var otherDir = this.next.point.subtract(this.point).norm();
             angle = (Math.PI - dir.angle(otherDir)) / 2;
             dot = dir.dot(otherDir);
             var cross = dir.cross(otherDir);
+            t = dir.rotate(angle + AM.Math.ToRad(90)).scale(-15);
             if (cross > 0) {
                 angle = -angle;
+                t = dir.rotate(angle - AM.Math.ToRad(90)).scale(-15);
             }
         } else {
             angle = AM.Math.ToRad(90);
+            t = dir.rotate(angle + AM.Math.ToRad(90)).scale(-15);
         }
         angleSpan.innerHTML = AM.Math.ToDeg(angle);
         dotSpan.innerHTML = dot;
@@ -209,6 +221,26 @@ AM.SvgPoint.prototype = {
         var foldB = dir.rotate(angle).scale(-size);
         this.fPointA = this.point.add(foldA);
         this.fPointB = this.point.add(foldB);
+        
+        
+        
+        var a = this.fPointA;
+        var b = this.fPointB;
+        var c = this.fPointB.add(t);
+        var d = this.fPointA.add(t);
+
+        arr =[
+            [a.x, a.y],
+            [b.x, b.y],
+            [c.x, c.y],
+            [d.x, d.y]
+        ];
+        if (this.tt){
+          this.tt.plot(arr);
+        }else{
+          this.tt = svg.polygon(arr).fill('black');
+          this.tt.hide();
+        }
 
         if (this.fold) {
             this.fold.plot(this.fPointA.x, this.fPointA.y, this.fPointB.x, this.fPointB.y);
