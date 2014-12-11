@@ -92,7 +92,7 @@ AM.SvgPoint = function (prev) {
         x = prev.point.x + 15;
         y = prev.point.y + 15;
         this.pLine = svg.line(prev.point.x, prev.point.y, x, y).stroke({ width: 3 });
-        this.ptl = svg.line(prev.point.x, prev.point.y, x, y).stroke({ width: 3 });
+        this.ptl = svg.line(prev.point.x, prev.point.y, x, y).stroke({ width: 3,color:'red'});
         this.pbl = svg.line(prev.point.x, prev.point.y, x, y).stroke({ width: 3 });
         this.prev = prev;
         prev.next = this;
@@ -251,7 +251,8 @@ AM.Edge = function (top, bot, prev) {
             this.size('200%', '200%').move('-50%', '-50%');
         });
         //this.shadow.hide();
-        this.z = prev.z + 1;
+        //this.poly.hide();
+		this.z = prev.z + 1;
         this.zIndex = this.z;
         this.sideUp = !prev.sideUp;
         this.colorPoly();
@@ -282,6 +283,9 @@ AM.Edge.prototype = {
     z: -1,
     zIndex: -1,
 
+	center: function(){
+		return this.top.add(this.bot).scale(.5);
+	},
     colorPoly: function () {
         if (this.sideUp) {
             this.poly.fill('green');
@@ -381,38 +385,49 @@ AM.Bundle = function(edges){
             var p = edges[i-1];
             var n = edges[i+1];
             var e = edges[i];
-
-            var c = AM.Math.Line.Intersection(e.top, n.bot, e.bot, p.top);
-            pairs.push({a: e.top, b:c});
-            pairs.push({a: e.bot, b:c});
+			var c1 = AM.Math.Line.Intersection(e.top, n.bot, e.bot, p.top);
+			var c2 = AM.Math.Line.Intersection(e.top, p.bot, e.bot, n.top);
+			var d1 = c1.subtract(p.center()).magnitude();
+			var d2 = c2.subtract(p.center()).magnitude();
+			if(d1 <= d2){				
+				pairs.push({a: e.top, b:c1});
+				pairs.push({a: e.bot, b:c1});
+			}else{
+				pairs.push({a: e.bot, b:c2});
+				pairs.push({a: e.top, b:c2});				
+			}
         }
     }
-    var cPoints=[];
-    for(i=0; i<pairs.length; i++){
-        cPoints.push(AM.Math.Vec2d.lerp(pairs[i].a,pairs[i].b,Math.random()));
-        if(i===0){
-            cPoints.push(cPoints[0]);
-        }
-        if(i===pairs.length-1){
-            cPoints.push(cPoints[cPoints.length-1]);
-        }
-        svg.line(pairs[i].a.x,pairs[i].a.y,pairs[i].b.x,pairs[i].b.y).stroke('black');
-    }
-    var pStr = "";
-    pStr+="M " + cPoints[0].x + " " + cPoints[0].y;
-    for(i=1; i < cPoints.length-2; i++) {
-        var c1 = cPoints[i+1].subtract(cPoints[i-1]).scale(.333);
-        var c2 = cPoints[i].subtract(cPoints[i+2]).scale(.333);
-        var p2 = cPoints[i];
-        c1 = c1.add(cPoints[i]);
-        c2 = c2.add(cPoints[i+1]);
-        pStr +=" C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " +p2.x + " " + p2.y;
-
-    }
-    var color = '#'+ (Math.random().toString(16) + '000000').slice(2, 8);
-    this.paths = [];
-   // this.paths.push(svg.path(pStr).fill('none').stroke({color:color,opacity:1,width:2}));
-
+    
+	this.paths = [];
+	for(var num = 0; num < 50; num++) {
+		var cPoints=[];
+		for(i=0; i<pairs.length; i++){
+			cPoints.push(AM.Math.Vec2d.lerp(pairs[i].a,pairs[i].b,Math.random()));
+			if(i===0){
+				cPoints.push(cPoints[0]);
+			}
+			if(i===pairs.length-1){
+				cPoints.push(cPoints[cPoints.length-1]);
+			}
+			//svg.circle(10).move(cPoints[cPoints.length-1].x,cPoints[cPoints.length-1].y);
+			//svg.line(pairs[i].a.x,pairs[i].a.y,pairs[i].b.x,pairs[i].b.y).stroke('black');
+		}
+		var pStr = "";
+		pStr+="M " + cPoints[0].x + " " + cPoints[0].y;
+		for(i=1; i < cPoints.length-2; i++) {
+			var c1 = cPoints[i+1].subtract(cPoints[i-1]).scale(.133);
+			var c2 = cPoints[i].subtract(cPoints[i+2]).scale(.133);
+			var p2 = cPoints[i+1];
+			c1 = c1.add(cPoints[i]);
+			c2 = c2.add(cPoints[i+1]);
+			//svg.circle(5).move(c1.x,c1.y).fill('red');
+			//svg.circle(5).move(c2.x,c2.y).fill('green');
+			pStr +=" C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " +p2.x + " " + p2.y;
+		}
+		var color = '#'+ (Math.random().toString(16) + '000000').slice(2, 8);	
+		this.paths.push(svg.path(pStr).fill('none').stroke({color:color,opacity:.1,width:2}).back());
+	}
 
 /*
 	var mid = AM.Math.Line.Intersection(a,c,b,d);
