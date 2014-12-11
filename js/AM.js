@@ -247,8 +247,7 @@ AM.Edge = function (top, bot, prev) {
         this.shadow = svg.polygon(this.polyArr()).stroke({width: 1});
         this.poly = this.shadow.clone();
         this.shadow.filter(function (add) {
-            add.offset(0, 0).in(add.sourceAlpha).gaussianBlur(2);
-            this.size('200%', '200%').move('-50%', '-50%');
+            add.offset(0, 0).in(add.sourceAlpha).gaussianBlur(2);            
         });
         //this.shadow.hide();
         //this.poly.hide();
@@ -378,9 +377,13 @@ AM.Edge.prototype = {
 AM.Bundle = function(edges){
 
     var pairs = [];
+	var firstPair;
+	var secondPair;
     for(var i=0; i<edges.length; i++){
+		firstPair = null;
+		secondPair = null;
         if(i===0 || i===(edges.length-1)){
-            pairs.push({a:edges[i].top,b:edges[i].bot});
+            firstPair = {a:edges[i].top,b:edges[i].bot, w:(Math.random()*.6)};
         }else{
             var p = edges[i-1];
             var n = edges[i+1];
@@ -388,22 +391,35 @@ AM.Bundle = function(edges){
 			var c1 = AM.Math.Line.Intersection(e.top, n.bot, e.bot, p.top);
 			var c2 = AM.Math.Line.Intersection(e.top, p.bot, e.bot, n.top);
 			var d1 = c1.subtract(p.center()).magnitude();
-			var d2 = c2.subtract(p.center()).magnitude();
+			var d2 = c2.subtract(p.center()).magnitude();	
 			if(d1 <= d2){				
-				pairs.push({a: e.top, b:c1});
-				pairs.push({a: e.bot, b:c1});
+				firstPair = {a: e.top, b:c1, w:(Math.random()*.6)};
+				secondPair = {a: e.bot, b:c1, w:(Math.random()*.6)};
 			}else{
-				pairs.push({a: e.bot, b:c2});
-				pairs.push({a: e.top, b:c2});				
+				firstPair = {a: e.bot, b:c2, w:(Math.random()*.6)};
+				secondPair = {a: e.top, b:c2, w:(Math.random()*.6)};
 			}
+		
         }
+		
+		/*if(i>0){
+			var distBetween = 25;
+			var numPairs = Math.floor((pairs[pairs.length-1].a.subtract(firstPair.b).magnitude())/distBetween) - 1;
+			for(var j = 0; j<numPairs; j++){
+				var step = 1/(numPairs + 1);
+				var t = (j+1)*step;
+				pairs.push({a:AM.Math.Vec2d.lerp(pairs[pairs.length-1].a,firstPair.b,t), b:AM.Math.Vec2d.lerp(pairs[pairs.length-1].b,firstPair.a,t), w:(Math.random()*.6)});
+			}
+		}*/
+		pairs.push(firstPair);
+		if(secondPair){pairs.push(secondPair);}
     }
     
 	this.paths = [];
 	for(var num = 0; num < 50; num++) {
 		var cPoints=[];
 		for(i=0; i<pairs.length; i++){
-			cPoints.push(AM.Math.Vec2d.lerp(pairs[i].a,pairs[i].b,Math.random()));
+			cPoints.push(AM.Math.Vec2d.lerp(pairs[i].a,pairs[i].b,Math.random()*.5 +.25));
 			if(i===0){
 				cPoints.push(cPoints[0]);
 			}
@@ -416,8 +432,8 @@ AM.Bundle = function(edges){
 		var pStr = "";
 		pStr+="M " + cPoints[0].x + " " + cPoints[0].y;
 		for(i=1; i < cPoints.length-2; i++) {
-			var c1 = cPoints[i+1].subtract(cPoints[i-1]).scale(.133);
-			var c2 = cPoints[i].subtract(cPoints[i+2]).scale(.133);
+			var c1 = cPoints[i+1].subtract(cPoints[i-1]).norm().scale(10);
+			var c2 = cPoints[i].subtract(cPoints[i+2]).norm().scale(10);
 			var p2 = cPoints[i+1];
 			c1 = c1.add(cPoints[i]);
 			c2 = c2.add(cPoints[i+1]);
@@ -426,7 +442,7 @@ AM.Bundle = function(edges){
 			pStr +=" C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " +p2.x + " " + p2.y;
 		}
 		var color = '#'+ (Math.random().toString(16) + '000000').slice(2, 8);	
-		this.paths.push(svg.path(pStr).fill('none').stroke({color:color,opacity:.1,width:2}).back());
+		this.paths.push(svg.path(pStr).fill('none').stroke({color:'red',opacity:.1,width:2}).back());
 	}
 
 /*
