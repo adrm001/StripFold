@@ -31,6 +31,7 @@ AM.Test.prototype = {
         var ret = this.edges[0].straighten();
         this.center = ret.center;
         this.angle = ret.angle;
+        AM.Bundle(this.edges);
     },
     hidePoints: function () {
         this.points.forEach(function (elem) {
@@ -243,7 +244,6 @@ AM.Edge = function (top, bot, prev) {
     this.prev = prev;
     if (prev) {
         prev.next = this;
-		this.bundle = new AM.Bundle(this.prev.top,this.prev.bot,this.top,this.bot);
         this.shadow = svg.polygon(this.polyArr()).stroke({width: 1});
         this.poly = this.shadow.clone();
         this.shadow.filter(function (add) {
@@ -278,7 +278,6 @@ AM.Edge.prototype = {
     line: null,
     poly: null,
     shadow: null,
-	bundle: null,
     sideUp: true,
     z: -1,
     zIndex: -1,
@@ -372,7 +371,50 @@ AM.Edge.prototype = {
     }
 };
 
-AM.Bundle = function(a,b,c,d){
+AM.Bundle = function(edges){
+
+    var pairs = [];
+    for(var i=0; i<edges.length; i++){
+        if(i===0 || i===(edges.length-1)){
+            pairs.push({a:edges[i].top,b:edges[i].bot});
+        }else{
+            var p = edges[i-1];
+            var n = edges[i+1];
+            var e = edges[i];
+
+            var c = AM.Math.Line.Intersection(e.top, n.bot, e.bot, p.top);
+            pairs.push({a: e.top, b:c});
+            pairs.push({a: e.bot, b:c});
+        }
+    }
+    var cPoints=[];
+    for(i=0; i<pairs.length; i++){
+        cPoints.push(AM.Math.Vec2d.lerp(pairs[i].a,pairs[i].b,Math.random()));
+        if(i===0){
+            cPoints.push(cPoints[0]);
+        }
+        if(i===pairs.length-1){
+            cPoints.push(cPoints[cPoints.length-1]);
+        }
+        svg.line(pairs[i].a.x,pairs[i].a.y,pairs[i].b.x,pairs[i].b.y).stroke('black');
+    }
+    var pStr = "";
+    pStr+="M " + cPoints[0].x + " " + cPoints[0].y;
+    for(i=1; i < cPoints.length-2; i++) {
+        var c1 = cPoints[i+1].subtract(cPoints[i-1]).scale(.333);
+        var c2 = cPoints[i].subtract(cPoints[i+2]).scale(.333);
+        var p2 = cPoints[i];
+        c1 = c1.add(cPoints[i]);
+        c2 = c2.add(cPoints[i+1]);
+        pStr +=" C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " +p2.x + " " + p2.y;
+
+    }
+    var color = '#'+ (Math.random().toString(16) + '000000').slice(2, 8);
+    this.paths = [];
+   // this.paths.push(svg.path(pStr).fill('none').stroke({color:color,opacity:1,width:2}));
+
+
+/*
 	var mid = AM.Math.Line.Intersection(a,c,b,d);
 	this.paths = [];
 	if(mid){
@@ -387,7 +429,7 @@ AM.Bundle = function(a,b,c,d){
 			var path = "M " + p1.x + " " + p1.y + " C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " +p2.x + " " + p2.y;
 			this.paths.push(svg.path(path).fill('none').stroke({color:color,opacity:Math.random(),width:2}));
 		}
-	}
+	}*/
 };
 
 var hooks = new AM.Test();
