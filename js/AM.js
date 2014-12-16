@@ -205,8 +205,6 @@ AM.SvgPoint.prototype = {
         } else {
             angle = AM.Math.ToRad(90);         
         }
-        angleSpan.innerHTML = AM.Math.ToDeg(angle);
-        dotSpan.innerHTML = dot;
         var size = width / (Math.cos(AM.Math.ToRad(90) - angle));
         var foldA = dir.rotate(angle).scale(size);
         var foldB = dir.rotate(angle).scale(-size);
@@ -315,10 +313,14 @@ AM.Edge.prototype = {
     },
     straighten: function() {
         if(!this.next){return;}
-        var center = this.top.add(this.bot).scale(.5);
-        var dest = this.next.top.add(this.next.bot).scale(.5);
+        var center = AM.Math.Vec2d.lerp(this.top,this.bot,.5);
+        var dest = AM.Math.Vec2d.lerp(this.next.top,this.next.bot,.5);
         var toDes = dest.subtract(center).norm();
         var angle = toDes.angle(new AM.Math.Vec2d(1,0));
+        var cross = toDes.cross(new AM.Math.Vec2d(1,0));
+        if (cross < 0) {
+            angle = -angle;
+        }
         return {center:center, angle:angle};
     },
     rotate: function (center, angle) {
@@ -466,10 +468,6 @@ AM.Bundle = function(edges){
 var hooks = new AM.Test();
 var svg = {};
 var width = 15;
-var angleSpan = null;
-var dotSpan = null;
 AM.Load = function () {
     svg = SVG("drawing");
-    angleSpan = document.getElementById("angle");
-    dotSpan = document.getElementById("dot");
 };
