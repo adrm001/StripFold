@@ -1,6 +1,5 @@
 var AM = AM || {};
 
-
 AM.Test = function () {
 
 };
@@ -9,8 +8,8 @@ AM.Test.prototype = {
     points: [],
     edges: [],
     folded: true,
-    center:null,
-    angle:0,
+    center: null,
+    angle: 0,
 
     addPoint: function Test$addPoint() {
         this.showPoints();
@@ -18,20 +17,28 @@ AM.Test.prototype = {
     },
     createStrip: function Test$createStrip() {
         this.hidePoints();
-        this.edges.forEach(function (elem) {
-            elem.removeSVG();
-        });
-        this.edges = [];
-        var prev = null;
+        //this.edges.forEach(function (elem) {
+        //    elem.removeSVG();
+        //});
+        //this.edges = [];
+        //var prev = null;
+        //this.points.forEach(function (elem) {
+        //    this.edges[this.edges.length] = new AM.Edge(elem.fPointA, elem.fPointB, prev);
+        //    prev = this.edges[this.edges.length - 1];
+        //}, this);
+        //this.foldIndex = 0;
+        //var ret = this.edges[0].straighten();
+        //this.center = ret.center;
+        //this.angle = ret.angle;
+        //AM.Bundle(this.edges);
+        if (this.letter) {
+            this.letter.RemoveSvg();
+        }
+        var points = [];
         this.points.forEach(function (elem) {
-            this.edges[this.edges.length] = new AM.Edge(elem.fPointA, elem.fPointB, prev);
-            prev = this.edges[this.edges.length - 1];
-        }, this);
-        this.foldIndex = 0;
-        var ret = this.edges[0].straighten();
-        this.center = ret.center;
-        this.angle = ret.angle;
-        AM.Bundle(this.edges);
+            points.push(elem.point);
+        });
+        this.letter = new AM.PaperLetter(svg, points, width, 'blue', 'green');
     },
     hidePoints: function () {
         this.points.forEach(function (elem) {
@@ -44,16 +51,16 @@ AM.Test.prototype = {
         });
     },
     unfold: function () {
-        if (this.folded) {
-            this.edges[0].rotate(this.center, this.angle);
-            this.edges[1].fold(AM.Edge.unfold);
-            this.folded = false;
-        } else {
-            this.edges[0].rotate(this.center, -this.angle);
-            this.edges[1].fold(AM.Edge.fold);
-            this.folded = true;
-        }
-
+        //if (this.folded) {
+        //    this.edges[0].rotate(this.center, this.angle);
+        //    this.edges[1].fold(AM.Edge.unfold);
+        //    this.folded = false;
+        //} else {
+        //    this.edges[0].rotate(this.center, -this.angle);
+        //    this.edges[1].fold(AM.Edge.fold);
+        //    this.folded = true;
+        //}
+        this.letter.FoldUnfold();
     },
     arrange: function () {
         var min = 1000000;
@@ -91,9 +98,9 @@ AM.SvgPoint = function (prev) {
     if (prev) {
         x = prev.point.x + 15;
         y = prev.point.y + 15;
-        this.pLine = svg.line(prev.point.x, prev.point.y, x, y).stroke({ width: 3 });
-        this.ptl = svg.line(prev.point.x, prev.point.y, x, y).stroke({ width: 3,color:'red'});
-        this.pbl = svg.line(prev.point.x, prev.point.y, x, y).stroke({ width: 3 });
+        this.pLine = svg.line(prev.point.x, prev.point.y, x, y).stroke({width: 3});
+        this.ptl = svg.line(prev.point.x, prev.point.y, x, y).stroke({width: 3, color: 'red'});
+        this.pbl = svg.line(prev.point.x, prev.point.y, x, y).stroke({width: 3});
         this.prev = prev;
         prev.next = this;
         prev.nLine = this.pLine;
@@ -139,7 +146,7 @@ AM.SvgPoint.prototype = {
             if (e) {
                 e.hide();
             }
-        });        
+        });
     },
     show: function () {
         var arr = [];
@@ -153,7 +160,7 @@ AM.SvgPoint.prototype = {
             if (e) {
                 e.show();
             }
-        });        
+        });
     },
     dragMove: function (delta, event) {
         this.point.x = this.circle.cx();
@@ -192,30 +199,30 @@ AM.SvgPoint.prototype = {
             dir = this.prev.point.subtract(this.point).norm();
         } else {
             dir = this.point.subtract(this.next.point).norm().scale(-1);
-        }        
+        }
         var cross;
         if (this.next && this.prev) {
             var otherDir = this.next.point.subtract(this.point).norm();
             angle = (Math.PI - dir.angle(otherDir)) / 2;
             dot = dir.dot(otherDir);
-            var cross = dir.cross(otherDir);            
+            var cross = dir.cross(otherDir);
             if (cross > 0) {
-                angle = -angle;                
+                angle = -angle;
             }
         } else {
-            angle = AM.Math.ToRad(90);         
+            angle = AM.Math.ToRad(90);
         }
         var size = width / (Math.cos(AM.Math.ToRad(90) - angle));
         var foldA = dir.rotate(angle).scale(size);
         var foldB = dir.rotate(angle).scale(-size);
         this.fPointA = this.point.add(foldA);
         this.fPointB = this.point.add(foldB);
-        
+
 
         if (this.fold) {
             this.fold.plot(this.fPointA.x, this.fPointA.y, this.fPointB.x, this.fPointB.y);
         } else {
-            this.fold = svg.line(this.fPointA.x, this.fPointA.y, this.fPointB.x, this.fPointB.y).stroke({ width: 3 });
+            this.fold = svg.line(this.fPointA.x, this.fPointA.y, this.fPointB.x, this.fPointB.y).stroke({width: 3});
         }
     },
     connectFolds: function () {
@@ -245,11 +252,11 @@ AM.Edge = function (top, bot, prev) {
         this.shadow = svg.polygon(this.polyArr()).stroke({width: 1});
         this.poly = this.shadow.clone();
         this.shadow.filter(function (add) {
-            add.offset(0, 0).in(add.sourceAlpha).gaussianBlur(2);            
+            add.offset(0, 0).in(add.sourceAlpha).gaussianBlur(2);
         });
         //this.shadow.hide();
         //this.poly.hide();
-		this.z = prev.z + 1;
+        this.z = prev.z + 1;
         this.zIndex = this.z;
         this.sideUp = !prev.sideUp;
         this.colorPoly();
@@ -280,9 +287,9 @@ AM.Edge.prototype = {
     z: -1,
     zIndex: -1,
 
-	center: function(){
-		return this.top.add(this.bot).scale(.5);
-	},
+    center: function () {
+        return this.top.add(this.bot).scale(.5);
+    },
     colorPoly: function () {
         if (this.sideUp) {
             this.poly.fill('green');
@@ -297,6 +304,10 @@ AM.Edge.prototype = {
         if (this.poly) {
             this.poly.remove();
         }
+        if (this.shadow) {
+            this.shadow.remove();
+        }
+
     },
     polyArr: function () {
         var a = this.prev.top;
@@ -311,17 +322,19 @@ AM.Edge.prototype = {
             [d.x, d.y]
         ];
     },
-    straighten: function() {
-        if(!this.next){return;}
-        var center = AM.Math.Vec2d.lerp(this.top,this.bot,.5);
-        var dest = AM.Math.Vec2d.lerp(this.next.top,this.next.bot,.5);
+    straighten: function () {
+        if (!this.next) {
+            return;
+        }
+        var center = AM.Math.Vec2d.lerp(this.top, this.bot, .5);
+        var dest = AM.Math.Vec2d.lerp(this.next.top, this.next.bot, .5);
         var toDes = dest.subtract(center).norm();
-        var angle = toDes.angle(new AM.Math.Vec2d(1,0));
-        var cross = toDes.cross(new AM.Math.Vec2d(1,0));
+        var angle = toDes.angle(new AM.Math.Vec2d(1, 0));
+        var cross = toDes.cross(new AM.Math.Vec2d(1, 0));
         if (cross < 0) {
             angle = -angle;
         }
-        return {center:center, angle:angle};
+        return {center: center, angle: angle};
     },
     rotate: function (center, angle) {
 
@@ -376,93 +389,95 @@ AM.Edge.prototype = {
     }
 };
 
-AM.Bundle = function(edges){
+AM.Bundle = function (edges) {
 
     var pairs = [];
-	var firstPair;
-	var secondPair;
-    for(var i=0; i<edges.length; i++){
-		firstPair = null;
-		secondPair = null;
-        if(i===0 || i===(edges.length-1)){
-            firstPair = {a:edges[i].top,b:edges[i].bot, w:(Math.random()*.6)};
-        }else{
-            var p = edges[i-1];
-            var n = edges[i+1];
+    var firstPair;
+    var secondPair;
+    for (var i = 0; i < edges.length; i++) {
+        firstPair = null;
+        secondPair = null;
+        if (i === 0 || i === (edges.length - 1)) {
+            firstPair = {a: edges[i].top, b: edges[i].bot, w: (Math.random() * .6)};
+        } else {
+            var p = edges[i - 1];
+            var n = edges[i + 1];
             var e = edges[i];
-			var c1 = AM.Math.Line.Intersection(e.top, n.bot, e.bot, p.top);
-			var c2 = AM.Math.Line.Intersection(e.top, p.bot, e.bot, n.top);
-			var d1 = c1.subtract(p.center()).magnitude();
-			var d2 = c2.subtract(p.center()).magnitude();	
-			if(d1 <= d2){				
-				firstPair = {a: e.top, b:c1, w:(Math.random()*.6)};
-				secondPair = {a: e.bot, b:c1, w:(Math.random()*.6)};
-			}else{
-				firstPair = {a: e.bot, b:c2, w:(Math.random()*.6)};
-				secondPair = {a: e.top, b:c2, w:(Math.random()*.6)};
-			}
-		
-        }
-		
-		/*if(i>0){
-			var distBetween = 25;
-			var numPairs = Math.floor((pairs[pairs.length-1].a.subtract(firstPair.b).magnitude())/distBetween) - 1;
-			for(var j = 0; j<numPairs; j++){
-				var step = 1/(numPairs + 1);
-				var t = (j+1)*step;
-				pairs.push({a:AM.Math.Vec2d.lerp(pairs[pairs.length-1].a,firstPair.b,t), b:AM.Math.Vec2d.lerp(pairs[pairs.length-1].b,firstPair.a,t), w:(Math.random()*.6)});
-			}
-		}*/
-		pairs.push(firstPair);
-		if(secondPair){pairs.push(secondPair);}
-    }
-    
-	this.paths = [];
-	for(var num = 0; num < 50; num++) {
-		var cPoints=[];
-		for(i=0; i<pairs.length; i++){
-			cPoints.push(AM.Math.Vec2d.lerp(pairs[i].a,pairs[i].b,Math.random()*.5 +.25));
-			if(i===0){
-				cPoints.push(cPoints[0]);
-			}
-			if(i===pairs.length-1){
-				cPoints.push(cPoints[cPoints.length-1]);
-			}
-			//svg.circle(10).move(cPoints[cPoints.length-1].x,cPoints[cPoints.length-1].y);
-			//svg.line(pairs[i].a.x,pairs[i].a.y,pairs[i].b.x,pairs[i].b.y).stroke('black');
-		}
-		var pStr = "";
-		pStr+="M " + cPoints[0].x + " " + cPoints[0].y;
-		for(i=1; i < cPoints.length-2; i++) {
-			var c1 = cPoints[i+1].subtract(cPoints[i-1]).norm().scale(10);
-			var c2 = cPoints[i].subtract(cPoints[i+2]).norm().scale(10);
-			var p2 = cPoints[i+1];
-			c1 = c1.add(cPoints[i]);
-			c2 = c2.add(cPoints[i+1]);
-			//svg.circle(5).move(c1.x,c1.y).fill('red');
-			//svg.circle(5).move(c2.x,c2.y).fill('green');
-			pStr +=" C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " +p2.x + " " + p2.y;
-		}
-		var color = '#'+ (Math.random().toString(16) + '000000').slice(2, 8);	
-		this.paths.push(svg.path(pStr).fill('none').stroke({color:'red',opacity:.1,width:2}).back());
-	}
+            var c1 = AM.Math.Line.Intersection(e.top, n.bot, e.bot, p.top);
+            var c2 = AM.Math.Line.Intersection(e.top, p.bot, e.bot, n.top);
+            var d1 = c1.subtract(p.center()).magnitude();
+            var d2 = c2.subtract(p.center()).magnitude();
+            if (d1 <= d2) {
+                firstPair = {a: e.top, b: c1, w: (Math.random() * .6)};
+                secondPair = {a: e.bot, b: c1, w: (Math.random() * .6)};
+            } else {
+                firstPair = {a: e.bot, b: c2, w: (Math.random() * .6)};
+                secondPair = {a: e.top, b: c2, w: (Math.random() * .6)};
+            }
 
-/*
-	var mid = AM.Math.Line.Intersection(a,c,b,d);
-	this.paths = [];
-	if(mid){
-		var num = 50;		
-		for(var i = 0;i<num;i++){
-			var p1 = AM.Math.Vec2d.lerp(a,b,Math.random());
-			var p2 = AM.Math.Vec2d.lerp(c,d,Math.random());
-			var c1 = AM.Math.Vec2d.lerp(a,mid,Math.random());
-			var c2 = AM.Math.Vec2d.lerp(mid,d,Math.random());			
-			
-			var color = '#'+ (Math.random().toString(16) + '000000').slice(2, 8);
-			var path = "M " + p1.x + " " + p1.y + " C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " +p2.x + " " + p2.y;
-			this.paths.push(svg.path(path).fill('none').stroke({color:color,opacity:Math.random(),width:2}));
-		}
-	}*/
+        }
+
+        /*if(i>0){
+         var distBetween = 25;
+         var numPairs = Math.floor((pairs[pairs.length-1].a.subtract(firstPair.b).magnitude())/distBetween) - 1;
+         for(var j = 0; j<numPairs; j++){
+         var step = 1/(numPairs + 1);
+         var t = (j+1)*step;
+         pairs.push({a:AM.Math.Vec2d.lerp(pairs[pairs.length-1].a,firstPair.b,t), b:AM.Math.Vec2d.lerp(pairs[pairs.length-1].b,firstPair.a,t), w:(Math.random()*.6)});
+         }
+         }*/
+        pairs.push(firstPair);
+        if (secondPair) {
+            pairs.push(secondPair);
+        }
+    }
+
+    this.paths = [];
+    for (var num = 0; num < 50; num++) {
+        var cPoints = [];
+        for (i = 0; i < pairs.length; i++) {
+            cPoints.push(AM.Math.Vec2d.lerp(pairs[i].a, pairs[i].b, Math.random() * .5 + .25));
+            if (i === 0) {
+                cPoints.push(cPoints[0]);
+            }
+            if (i === pairs.length - 1) {
+                cPoints.push(cPoints[cPoints.length - 1]);
+            }
+            //svg.circle(10).move(cPoints[cPoints.length-1].x,cPoints[cPoints.length-1].y);
+            //svg.line(pairs[i].a.x,pairs[i].a.y,pairs[i].b.x,pairs[i].b.y).stroke('black');
+        }
+        var pStr = "";
+        pStr += "M " + cPoints[0].x + " " + cPoints[0].y;
+        for (i = 1; i < cPoints.length - 2; i++) {
+            var c1 = cPoints[i + 1].subtract(cPoints[i - 1]).norm().scale(10);
+            var c2 = cPoints[i].subtract(cPoints[i + 2]).norm().scale(10);
+            var p2 = cPoints[i + 1];
+            c1 = c1.add(cPoints[i]);
+            c2 = c2.add(cPoints[i + 1]);
+            //svg.circle(5).move(c1.x,c1.y).fill('red');
+            //svg.circle(5).move(c2.x,c2.y).fill('green');
+            pStr += " C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " + p2.x + " " + p2.y;
+        }
+        var color = '#' + (Math.random().toString(16) + '000000').slice(2, 8);
+        this.paths.push(svg.path(pStr).fill('none').stroke({color: 'red', opacity: .1, width: 2}).back());
+    }
+
+    /*
+     var mid = AM.Math.Line.Intersection(a,c,b,d);
+     this.paths = [];
+     if(mid){
+     var num = 50;
+     for(var i = 0;i<num;i++){
+     var p1 = AM.Math.Vec2d.lerp(a,b,Math.random());
+     var p2 = AM.Math.Vec2d.lerp(c,d,Math.random());
+     var c1 = AM.Math.Vec2d.lerp(a,mid,Math.random());
+     var c2 = AM.Math.Vec2d.lerp(mid,d,Math.random());
+
+     var color = '#'+ (Math.random().toString(16) + '000000').slice(2, 8);
+     var path = "M " + p1.x + " " + p1.y + " C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " +p2.x + " " + p2.y;
+     this.paths.push(svg.path(path).fill('none').stroke({color:color,opacity:Math.random(),width:2}));
+     }
+     }*/
 };
 
 var hooks = new AM.Test();

@@ -1,3 +1,4 @@
+var AM = AM || {};
 AM.Math = AM.Math || {};
 
 AM.Math.ToDeg = function (rad) {
