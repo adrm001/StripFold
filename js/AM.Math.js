@@ -13,11 +13,19 @@ AM.Math.Vec2d = function (x, y) {
 };
 AM.Math.Vec2d.lerp = function(v1,v2,t){
 	return v1.scale(1-t).add(v2.scale(t));
+};
+AM.Math.Vec2d.Array2DToVec=function(array){
+    var ret = [];
+    array.forEach(function(elem){ret.push(new AM.Math.Vec2d(elem[0],elem[1]));});
+    return ret;
 }
 AM.Math.Vec2d.prototype = {
     x: 0,
     y: 0,
 
+    toArray: function(){
+        return [this.x,this.y];
+    },
     subtract: function (otherVec) {
         return new AM.Math.Vec2d(this.x - otherVec.x, this.y - otherVec.y);
     },
@@ -63,12 +71,18 @@ AM.Math.Line = function (pointA, pointB) {
     this.A = pointA;
 };
 AM.Math.Line.Intersection = function(a1,a2,b1,b2){
-	var det = (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - a2.y)*(b1.x - b2.x);
-	if(Math.abs(det) > .0001){
-		var xNum = (a1.x*a2.y - a1.y*a2.x)*(b1.x - b2.x) - (a1.x - a2.x)*(b1.x*b2.y - b1.y*b2.x);
-		var yNum = (a1.x*a2.y - a1.y*a2.x)*(b1.y - b2.y) - (a1.y - a2.y)*(b1.x*b2.y - b1.y*b2.x);
-		return new AM.Math.Vec2d(xNum/det,yNum/det);
-	}
+    //represent lines in p+tr, q+us
+    var p = a1;
+    var r = a2.subtract(a1);
+    var q = b1;
+    var s = b2.subtract(a1);
+    var rxs = r.cross(s);
+    if(rxs>0) {
+        var t = (q.subtract(p).cross(s)) / (rxs);
+        if(t>=0||t<=1){
+            return p.add(r.scale(t));
+        }
+    }
 	return null;
 };
 AM.Math.Line.prototype = {

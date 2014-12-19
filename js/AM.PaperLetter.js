@@ -1,20 +1,26 @@
-AM.PaperLetter = function (svgArg, pointsArg, widthArg, foreColorArg, backColorArg) {
+AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, backColorArg) {
     var $svg = svgArg;
     var $width = widthArg;
     var $fore = foreColorArg;
     var $back = backColorArg;
     var $points = [];
     var $edges = [];
+    var $bundles = [];
     var $center;
     var $angle;
     var $folded = true;
+    var $pos = position;
     var $$Vec2d = AM.Math.Vec2d;
+
 
     //region privileged public
 
     this.RemoveSvg = function () {
         $edges.forEach(function (elem) {
             elem.removeSVG();
+        });
+        $bundles.forEach(function (elem) {
+            elem.remove();
         });
     };
 
@@ -257,7 +263,7 @@ AM.PaperLetter = function (svgArg, pointsArg, widthArg, foreColorArg, backColorA
         for (var i = 0; i < pointsArg.length; i++) {
             var x = pointsArg[i].x;
             var y = pointsArg[i].y;
-            prev = new Point(x, y, prev);
+            prev = new Point(x + $pos.x, y+ $pos.y, prev);
             $points.push(prev);
         }
         $points.forEach(function ($p) {
@@ -281,23 +287,27 @@ AM.PaperLetter = function (svgArg, pointsArg, widthArg, foreColorArg, backColorA
                 var e = $edges[i];
                 var c1 = AM.Math.Line.Intersection(e.top, n.bot, e.bot, p.top);
                 var c2 = AM.Math.Line.Intersection(e.top, p.bot, e.bot, n.top);
-                var d1 = c1.subtract(p.center()).magnitude();
-                var d2 = c2.subtract(p.center()).magnitude();
-                if (d1 <= d2) {
-                    firstPair = {a: e.top, b: c1, w: (Math.random() * .6)};
-                    secondPair = {a: e.bot, b: c1, w: (Math.random() * .6)};
-                } else {
-                    firstPair = {a: e.bot, b: c2, w: (Math.random() * .6)};
-                    secondPair = {a: e.top, b: c2, w: (Math.random() * .6)};
+                if(c1&&c2) {
+                    var d1 = c1.subtract(p.center()).magnitude();
+                    var d2 = c2.subtract(p.center()).magnitude();
+                    if (d1 <= d2) {
+                        firstPair = {a: e.top, b: c1, w: (Math.random() * .6)};
+                        secondPair = {a: e.bot, b: c1, w: (Math.random() * .6)};
+                    } else {
+                        firstPair = {a: e.bot, b: c2, w: (Math.random() * .6)};
+                        secondPair = {a: e.top, b: c2, w: (Math.random() * .6)};
+                    }
+                }else{
+                    firstPair = {a: $edges[i].top, b: $edges[i].bot, w: (Math.random() * .6)};
                 }
-
             }
             pairs.push(firstPair);
             if (secondPair) {
                 pairs.push(secondPair);
             }
         }
-        for (var num = 0; num < 50; num++) {
+
+        for (var num = 0; num < 5; num++) {
             var cPoints = [];
             for (i = 0; i < pairs.length; i++) {
                 cPoints.push($$Vec2d.lerp(pairs[i].a, pairs[i].b, Math.random() * .5 + .25));
@@ -319,7 +329,7 @@ AM.PaperLetter = function (svgArg, pointsArg, widthArg, foreColorArg, backColorA
                 pStr += " C " + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " + p2.x + " " + p2.y;
             }
             var color = '#' + (Math.random().toString(16) + '000000').slice(2, 8);
-            $svg.path(pStr).fill('none').stroke({color: 'red', opacity: .1, width: 2}).back();
+            $bundles.push($svg.path(pStr).fill('none').stroke({color: $fore, opacity: .4, width: 3}).back());
         }
     }
 

@@ -3,7 +3,7 @@ var AM = AM || {};
 AM.Test = function () {
 
 };
-
+var M = [[0,0],[49,-170],[100,0],[150,-30],[125,-170],[75,-50],[80,-60],[10,-60]];
 AM.Test.prototype = {
     points: [],
     edges: [],
@@ -35,10 +35,16 @@ AM.Test.prototype = {
             this.letter.RemoveSvg();
         }
         var points = [];
+        var orig = this.points[0].point;
+        var points2d = [];
         this.points.forEach(function (elem) {
-            points.push(elem.point);
+            points.push(elem.point.subtract(orig));
         });
-        this.letter = new AM.PaperLetter(svg, points, width, 'blue', 'green');
+        points.forEach(function (elem) {
+            points2d.push([elem.x,elem.y]);
+        });
+        points = AM.Math.Vec2d.Array2DToVec(M);
+        this.letter = new AM.PaperLetter(svg, points, orig, width, '#0099CC', '#26697F');
     },
     hidePoints: function () {
         this.points.forEach(function (elem) {
