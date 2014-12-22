@@ -204,8 +204,8 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
             this.bot = this.bot.subtract(center).rotate(angle).add(center);
             this.line = new AM.Math.Line(this.top, this.bot);
             if (this.poly) {
-                this.shadow.animate(250).plot(this.polyArr());
-                this.poly.animate(250).plot(this.polyArr());
+                this.shadow.animate(2500).plot(this.polyArr());
+                this.poly.animate(2500).plot(this.polyArr());
             }
             if (this.next) {
                 this.next.rotate(center, angle);
@@ -219,8 +219,8 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
                 this.bot = this.bot.add(botVec);
                 this.line = new AM.Math.Line(this.top, this.bot);
                 var flipped = false;
-                this.shadow.animate(250).plot(this.polyArr());
-                this.poly.animate(250).plot(this.polyArr()).during(function (pos) {
+                this.shadow.animate(2500).plot(this.polyArr());
+                this.poly.animate(2500).plot(this.polyArr()).during(function (pos) {
                     if (pos >= .5 && !flipped) {
                         flipped = true;
                         this.sideUp = !this.sideUp;

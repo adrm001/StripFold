@@ -8,4 +8,39 @@
   position:absolute;
   top:0px;
   left:0px;
+  overflow: visible;
 }
+#AMLogoDiv
+{
+  margin: auto;
+  background: palegreen;
+  height: 170px;
+  width: 150px;
+}
+.am_svgContainer
+{
+  /*border: 10px solid #b6bdc3;*/
+  width: 50px;
+  /*background: #fff;*/
+  /*margin: 0 auto;*/
+  height: 50px;
+  /*padding-top: 48%;*/
+  position: relative;
+  display: inline-block;
+  margin: -15px 0px;
+}
+/*.am_svgContainer span*/
+/*{*/
+  /*display: inline-block;*/
+  /*padding: -15px -15px;*/
+/*}*/
+.am_svg
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/*.navbar-brand*/
+/*{*/
+  /*padding: 0px 0px;*/
+/*}*/
