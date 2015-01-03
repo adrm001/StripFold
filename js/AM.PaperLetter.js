@@ -11,6 +11,8 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
     var $folded = true;
     var $pos = position;
     var $$Vec2d = AM.Math.Vec2d;
+    var $time = 1500;
+    var $step = $time/pointsArg.length;
 
 
     //region privileged public
@@ -26,11 +28,11 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
 
     this.FoldUnfold = function () {
         if ($folded) {
-            $edges[0].rotate($center, $angle);
+            $edges[0].rotate($center, $angle,new $$Vec2d(0,0), new $$Vec2d(0,$width));
             $edges[1].fold(Edge.unfold);
             $folded = false;
         } else {
-            $edges[0].rotate($center, -$angle);
+            $edges[0].rotate($center, -$angle, new $$Vec2d(0,-$width), new $$Vec2d(0,0));
             $edges[1].fold(Edge.fold);
             $folded = true;
         }
@@ -198,17 +200,17 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
             }
             return {center: center, angle: angle};
         },
-        rotate: function (center, angle) {
+        rotate: function (center, angle, pre, post) {
 
-            this.top = this.top.subtract(center).rotate(angle).add(center);
-            this.bot = this.bot.subtract(center).rotate(angle).add(center);
+            this.top = this.top.add(pre).subtract(center).rotate(angle).add(center).add(post);
+            this.bot = this.bot.add(pre).subtract(center).rotate(angle).add(center).add(post);
             this.line = new AM.Math.Line(this.top, this.bot);
             if (this.poly) {
-                this.shadow.animate(2500).plot(this.polyArr());
-                this.poly.animate(2500).plot(this.polyArr());
+                this.shadow.animate($step).plot(this.polyArr());
+                this.poly.animate($step).plot(this.polyArr());
             }
             if (this.next) {
-                this.next.rotate(center, angle);
+                this.next.rotate(center, angle, pre, post);
             }
         },
         fold: function (zFunc, line, cb) {
@@ -219,8 +221,8 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
                 this.bot = this.bot.add(botVec);
                 this.line = new AM.Math.Line(this.top, this.bot);
                 var flipped = false;
-                this.shadow.animate(2500).plot(this.polyArr());
-                this.poly.animate(2500).plot(this.polyArr()).during(function (pos) {
+                this.shadow.animate($step).plot(this.polyArr());
+                this.poly.animate($step).plot(this.polyArr()).during(function (pos) {
                     if (pos >= .5 && !flipped) {
                         flipped = true;
                         this.sideUp = !this.sideUp;

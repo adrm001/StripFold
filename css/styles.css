@@ -13,9 +13,9 @@
 #AMLogoDiv
 {
   margin: auto;
-  background: palegreen;
-  height: 170px;
-  width: 150px;
+  margin-top: 15px;
+  height: 190px;
+  width: 190px;
 }
 .am_svgContainer
 {
@@ -29,18 +29,16 @@
   display: inline-block;
   margin: -15px 0px;
 }
-/*.am_svgContainer span*/
-/*{*/
-  /*display: inline-block;*/
-  /*padding: -15px -15px;*/
-/*}*/
 .am_svg
 {
   position: absolute;
   top: 0;
   left: 0;
+  overflow: visible;
 }
-/*.navbar-brand*/
-/*{*/
-  /*padding: 0px 0px;*/
-/*}*/
+#portrait
+{
+  float:left;
+  margin:0 15px;
+  width:150px;
+}
