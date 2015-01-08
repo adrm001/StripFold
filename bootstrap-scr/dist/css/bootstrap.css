@@ -919,7 +919,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #a14a00;
-  background-color: #0094b2;
+  background-color: #006a7f;
 }
 input,
 button,
@@ -967,8 +967,8 @@ img {
   height: auto;
   padding: 4px;
   line-height: 1.42857143;
-  background-color: #0094b2;
-  border: 1px solid #ddd;
+  background-color: #00d3ff;
+  border: 1px solid #0094b2;
   border-radius: 4px;
   -webkit-transition: all .2s ease-in-out;
        -o-transition: all .2s ease-in-out;
@@ -2113,7 +2113,7 @@ th {
   border-top: 2px solid #ddd;
 }
 .table .table {
-  background-color: #0094b2;
+  background-color: #006a7f;
 }
 .table-condensed > thead > tr > th,
 .table-condensed > tbody > tr > th,
@@ -2783,6 +2783,8 @@ select[multiple].form-group-lg .form-control {
   background-image: none;
   border: 1px solid transparent;
   border-radius: 4px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
 }
 .btn:focus,
 .btn:active:focus,
@@ -3717,7 +3719,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a:focus {
   color: #e66900;
   cursor: default;
-  background-color: #0094b2;
+  background-color: #006a7f;
   border: 1px solid #ddd;
   border-bottom-color: transparent;
 }
@@ -3762,7 +3764,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .nav-tabs.nav-justified > .active > a,
   .nav-tabs.nav-justified > .active > a:hover,
   .nav-tabs.nav-justified > .active > a:focus {
-    border-bottom-color: #0094b2;
+    border-bottom-color: #006a7f;
   }
 }
 .nav-pills > li {
@@ -3830,7 +3832,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .nav-tabs-justified > .active > a,
   .nav-tabs-justified > .active > a:hover,
   .nav-tabs-justified > .active > a:focus {
-    border-bottom-color: #0094b2;
+    border-bottom-color: #006a7f;
   }
 }
 .tab-content > .tab-pane {
@@ -4684,9 +4686,11 @@ a.badge:focus {
   padding: 4px;
   margin-bottom: 20px;
   line-height: 1.42857143;
-  background-color: #0094b2;
-  border: 1px solid #ddd;
+  background-color: #00d3ff;
+  border: 1px solid #0094b2;
   border-radius: 4px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
   -webkit-transition: border .2s ease-in-out;
        -o-transition: border .2s ease-in-out;
           transition: border .2s ease-in-out;
