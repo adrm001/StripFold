@@ -16,13 +16,14 @@ var app = (function () {
                     templateUrl: 'partials/projects.html'
                 }).
                 when('/resume', {
-                    templateUrl: 'partials/resume.html'
+                    templateUrl: 'partials/resume.html',
+                    controller: 'ResumeCtl'
                 }).
                 when('/contact', {
                     templateUrl: 'partials/contact.html'
                 }).
                 otherwise({
-                    redirectTo: '/home'
+                    //redirectTo: '/home'
                 });
         }
     ]);
@@ -39,9 +40,22 @@ var app = (function () {
     app.controller('ViewCtl',['$scope',
         function($scope){
             $scope.$on('$viewContentLoaded',function(){
-                $AMLogo = app.addLogo('AMLogoDiv');
+                $AMLogo = app.addLogo('AMLogo');
+                $('#AMLogo').on('click',$AMLogo.FoldUnfold.bind($AMLogo));
+                //$AMLogo.FoldUnfold();
             })
-    }]);
+        }
+    ]);
+
+    app.controller('ResumeCtl',['$scope','$http',
+        function($scope,$http){
+            $scope.test = "boo";
+            $http.get('js/resume.json').success(function(data){
+                $scope.sections = data.sections;
+                $scope.test = $scope.sections[0].title;
+            });
+        }
+    ]);
 
     app.addLogo = function (divID) {
         var svgDiv = SVG(divID);

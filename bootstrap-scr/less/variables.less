@@ -7,7 +7,7 @@
 //
 //## Gray and brand colors for use across Bootstrap.
 
-@gray-base:              #3B1B00;
+@gray-base:              #000;//#3B1B00;
 @gray-darker:            lighten(@gray-base, 13.5%); // #222
 @gray-dark:              lighten(@gray-base, 20%);   // #333
 @gray:                   lighten(@gray-base, 33.5%); // #555
@@ -21,7 +21,7 @@
 //@brand-dark9:			      #004D40;
 @brand-primary:         #FF7600;
 @brand-light2:			    #F7A359;
-@brand-light1:		    	#00D3FF;
+@brand-light1:		    	desaturate(lighten(#00D3FF,35%),15%);
 @brand-dark7:			      #0094B2;
 @brand-dark9:			      #B25300;
 @brand-success:         #5cb85c;
@@ -56,7 +56,7 @@
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-@body-bg:               darken(@brand-dark7, 10%);
+@body-bg:               desaturate(lighten(@brand-light2,5%),15%);
 //** Global text color on `<body>`.
 @text-color:            @gray-dark;
 
@@ -132,9 +132,9 @@
 @line-height-large:         1.33;
 @line-height-small:         1.5;
 
-@border-radius-base:        4px;
-@border-radius-large:       6px;
-@border-radius-small:       3px;
+@border-radius-base:        3px;
+@border-radius-large:       4px;
+@border-radius-small:       2px;
 
 //** Global color for active items (e.g., navs or dropdowns).
 @component-active-color:    #fff;
@@ -765,7 +765,7 @@
 //** Thumbnail background color
 @thumbnail-bg:                @brand-light1;
 //** Thumbnail border color
-@thumbnail-border:            @brand-dark7;
+@thumbnail-border:            @brand-light1;
 //** Thumbnail border radius
 @thumbnail-border-radius:     @border-radius-base;
 

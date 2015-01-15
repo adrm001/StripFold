@@ -1,0 +1,56 @@
+{
+  "sections": [
+    {
+      "type"       : "full",
+      "title"      : "Education",
+      "subsections" : [
+        {
+          "subtitle" : "Industry",
+          "items": [
+            {
+              "title1": "PhD in Computer Science",
+              "title2": "University of Wisconsin-Madison",
+              "dates": "2009 - 2014",
+              "detail": [
+                "Studying computer graphics and visualization under Professor Michael Gleicher.",
+                "Conducting research on perceptually-motivated design for scalable data visualization.",
+                "Also working on sketch based techniques for animation and modeling."
+              ],
+              "link": "http://pages.cs.wisc.edu/~adrm/Mayorga_CV.pdf"
+            },
+            {
+              "title1": "PhD in Computer Science",
+              "title2": "University of Wisconsin-Madison",
+              "dates": "2009 - 2014",
+              "detail": ["Studying computer graphics and visualization under Professor Michael Gleicher. Conducting research on perceptually-motivated design for scalable data visualization. Also working on sketch based techniques for animation and modeling."],
+              "link": "http://pages.cs.wisc.edu/~adrm/Mayorga_CV.pdf"
+            }
+          ]
+        },
+        {
+          "subtitle" : null,
+          "items": [
+            {
+              "title1": "PhD in Computer Science",
+              "title2": "University of Wisconsin-Madison",
+              "dates": "2009 - 2014",
+              "detail": [
+                "Studying computer graphics and visualization under Professor Michael Gleicher.",
+                "Conducting research on perceptually-motivated design for scalable data visualization.",
+                "Also working on sketch based techniques for animation and modeling."
+              ],
+              "link": "http://pages.cs.wisc.edu/~adrm/Mayorga_CV.pdf"
+            },
+            {
+              "title1": "PhD in Computer Science",
+              "title2": "University of Wisconsin-Madison",
+              "dates": "2009 - 2014",
+              "detail": ["Studying computer graphics and visualization under Professor Michael Gleicher. Conducting research on perceptually-motivated design for scalable data visualization. Also working on sketch based techniques for animation and modeling."],
+              "link": "http://pages.cs.wisc.edu/~adrm/Mayorga_CV.pdf"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

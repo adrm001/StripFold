@@ -9,9 +9,10 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
     var $center;
     var $angle;
     var $folded = true;
+    var $folding = false;
     var $pos = position;
     var $$Vec2d = AM.Math.Vec2d;
-    var $time = 1500;
+    var $time = 2000;
     var $step = $time/pointsArg.length;
 
 
@@ -27,6 +28,8 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
     };
 
     this.FoldUnfold = function () {
+        if($folding){return;}
+        $folding = true;
         if ($folded) {
             $edges[0].rotate($center, $angle,new $$Vec2d(0,0), new $$Vec2d(0,$width));
             $edges[1].fold(Edge.unfold);
@@ -239,6 +242,9 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
                 }.bind(this));
             }
             else {
+                if(!this.next){//done with fold/unfold
+                   $folding=false;
+                }
                 line = this.line;
                 cb = this.foldNext.bind(this, zFunc);
             }

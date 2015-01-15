@@ -1,0 +1,28 @@
+<div class="jumbotron">
+    <h1>Resume</h1>
+</div>
+
+
+<div class="resume">
+    <div class="resume-section" ng-repeat="section in sections">
+        <div class="resume-section-title">{{section.title}}</div>
+        <div ng-repeat="subsection in section.subsections">
+            <div class="resume-section-subtitle" ng-if="subsection.subtitle">{{subsection.subtitle}}</div>
+            <div class="resume-section-item" ng-repeat="item in subsection.items">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="resume-section-item-title1 col-sm-5 col-md-5">{{item.title1}}</div>
+                            <div class="resume-section-item-title2 col-sm-7 col-md-5">{{item.title2}}</div>
+                            <div class="resume-section-item-dates col-sm-4 col-md-2">{{item.dates}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="resume-section-item-detail" ng-repeat="line in item.detail">
+                    {{line}}
+                </div>
+                <a class="resume-section-item-link" href="{{item.link}}">{{item.link}}</a>
+            </div>
+        </div>
+    </div>
+</div>

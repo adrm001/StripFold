@@ -151,6 +151,7 @@
   // ===================================
 
   $(document)
+    .on('click', '.navbar-collapse.in', function(e) {if($(e.target).is('a')){$(this).collapse('hide');}})
     .on('click.bs.dropdown.data-api', clearMenus)
     .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
     .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
