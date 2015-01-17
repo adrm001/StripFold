@@ -51,6 +51,26 @@
           ]
         }
       ]
+    },
+    {
+      "type"         : "pubs",
+      "title"        : "Publications",
+      "publications" : [
+        {
+          "authors" : "<em>Adrian Mayorga</em>, Supervised by Donald Fussell",
+          "title"   : "A Combined Approach to Subsurface Scattering",
+          "journal" : "Department of Computer Sciences, University of Texas at Austin",
+          "date"    : "June 2008",
+          "link"    : "ftp://ftp.cs.utexas.edu/pub/techreports/honor_theses/cs-08-03-mayorga.pdf"
+        },
+        {
+          "authors" : "<em>Adrian Mayorga</em> and Michael Gleicher",
+          "title"   : "Splatterplots: Overcoming Overdraw in Scatter Plots",
+          "journal" : "IEEE Transactions on Visualization and Computer Graphics",
+          "date"    : "19(9), 2013",
+          "link"    : "http://graphics.cs.wisc.edu/Papers/2013/MG13/splatterplots-final.pdf"
+        }
+      ]
     }
   ]
 }

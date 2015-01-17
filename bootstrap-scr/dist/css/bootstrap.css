@@ -3189,6 +3189,15 @@ input[type="button"].btn-block {
 .resume-section-item-link {
   padding-left: 10px;
 }
+.resume-section-pub {
+  padding-bottom: 10px;
+  padding-left: 45px;
+}
+.resume-section-pub-authors em {
+  font-style: normal;
+  font-weight: normal;
+  color: #0094b2;
+}
 .fade {
   opacity: 0;
   -webkit-transition: opacity .15s linear;

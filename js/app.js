@@ -4,7 +4,7 @@ var app = (function () {
     var $primaryLight = window.getComputedStyle(document.getElementById('brand-light1'), null).color;//'#0094B2';
     var $AMLogo;
 
-    var app = angular.module('main', ['ngRoute']);
+    var app = angular.module('main', ['ngSanitize','ngRoute']);
     //define routes
     app.config(['$routeProvider',
         function ($routeProvider) {
@@ -52,7 +52,6 @@ var app = (function () {
             $scope.test = "boo";
             $http.get('js/resume.json').success(function(data){
                 $scope.sections = data.sections;
-                $scope.test = $scope.sections[0].title;
             });
         }
     ]);
