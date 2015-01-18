@@ -71,6 +71,21 @@
           "link"    : "http://graphics.cs.wisc.edu/Papers/2013/MG13/splatterplots-final.pdf"
         }
       ]
+    },
+    {
+      "type"         : "list",
+      "title"        : "Skills",
+      "skills" : [
+        {
+          "title" : "Programming Languages",
+          "items"   : ["C#","C", "C++", "Javascript","M/Cache", "SQL", "VB","Haskel","Scheme","Java","Python","HTML/CSS","Matlab"]
+        },
+        {
+          "title" : "Frameworks / Libraries",
+          "items"   : ["OpenGL/GLSL","WebGL","ASP.Net","AngularJS","Bootstrap","G3D"]
+        }
+
+      ]
     }
   ]
 }

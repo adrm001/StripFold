@@ -23,7 +23,7 @@ var app = (function () {
                     templateUrl: 'partials/contact.html'
                 }).
                 otherwise({
-                    //redirectTo: '/home'
+                    redirectTo: '/home'
                 });
         }
     ]);
@@ -49,7 +49,6 @@ var app = (function () {
 
     app.controller('ResumeCtl',['$scope','$http',
         function($scope,$http){
-            $scope.test = "boo";
             $http.get('js/resume.json').success(function(data){
                 $scope.sections = data.sections;
             });
