@@ -13,15 +13,16 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="row">
-                                <div class="resume-section-item-title1 col-sm-5">{{item.title1}}</div>
-                                <div class="resume-section-item-title2 col-sm-5">{{item.title2}}</div>
+                                <div class="resume-section-item-title1 col-sm-4">{{item.title1}}</div>
+                                <div ng-if="item.title2" class="resume-section-item-title2 col-sm-4">{{item.title2}}</div>
+                                <div ng-if="item.title3" class="resume-section-item-title3 col-sm-4">{{item.title3}}</div>
                                 <div class="resume-section-item-dates col-sm-2">{{item.dates}}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="resume-section-item-detail" ng-repeat="line in item.detail">
-                        {{line}}
-                    </div>
+                    <ul>
+                      <li class="resume-section-item-detail" ng-repeat="line in item.detail">{{line}}</li>
+                    </ul>
                     <a class="resume-section-item-link" href="{{item.link}}">{{item.link}}</a>
                 </div>
             </div>
@@ -30,11 +31,21 @@
             <div ng-repeat="pub in section.publications">
                 <div class="row">
                     <div  class="resume-section-pub col-sm-12">
-                        <span class="resume-section-pub-authors" ng-bind-html="pub.authors"></span>
-                        <span class="resume-section-pub-title">"{{pub.title}}."</span>
-                        <span class="resume-section-pub-journal">{{pub.journal}}.</span>
-                        <span class="resume-section-pub-dates">{{pub.date}}</span>
-                        <a   class="resume-section-pub-link" href="{{pub.link}}">{{pub.link}}</a>
+                        <span class="resume-section-pub-authors" ng-bind-html="pub.authors">.</span>
+                        <span class="resume-section-pub-title">. "{{pub.title}}."</span>
+                        <span class="resume-section-pub-journal"> {{pub.journal}}.</span>
+                        <span class="resume-section-pub-dates"> {{pub.date}}</span>
+                        <a   class="resume-section-pub-link" href="{{pub.link}}"> {{pub.link}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="section.type==='list'">
+            <div class="row">
+                <div class="col-sm-4" ng-repeat="sublist in section.sublists">
+                    <div class="resume-list-title">{{sublist.title}}</div>
+                    <div class="row">
+                        <div ng-repeat="item in sublist.items" class="col-sm-3">{{item}}</div>
                     </div>
                 </div>
             </div>

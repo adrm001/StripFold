@@ -3156,6 +3156,8 @@ input[type="button"].btn-block {
   width: 100%;
 }
 .resume {
+  margin-bottom: 30px;
+  font-size: small;
   color: #555;
   background-color: #d5f5fc;
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
@@ -3183,6 +3185,9 @@ input[type="button"].btn-block {
 .resume-section-item-title2 {
   font-style: italic;
 }
+.resume-section-item-title3 {
+  font-style: italic;
+}
 .resume-section-item-detail {
   padding-left: 10px;
 }
@@ -3197,6 +3202,10 @@ input[type="button"].btn-block {
   font-style: normal;
   font-weight: normal;
   color: #0094b2;
+}
+.resume-list-title {
+  font-weight: bold;
+  text-align: center;
 }
 .fade {
   opacity: 0;

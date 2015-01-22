@@ -5,48 +5,111 @@
       "title"      : "Education",
       "subsections" : [
         {
-          "subtitle" : "Industry",
+          "subtitle" : null,
           "items": [
             {
-              "title1": "PhD in Computer Science",
+              "title1": "Masters of Science in in Computer Science",
               "title2": "University of Wisconsin-Madison",
-              "dates": "2009 - 2014",
-              "detail": [
-                "Studying computer graphics and visualization under Professor Michael Gleicher.",
-                "Conducting research on perceptually-motivated design for scalable data visualization.",
-                "Also working on sketch based techniques for animation and modeling."
-              ],
-              "link": "http://pages.cs.wisc.edu/~adrm/Mayorga_CV.pdf"
+              "dates": "2009 - 2011",
+              "detail": ["GPA: 3.40/4.00"],
+              "link": null
             },
             {
-              "title1": "PhD in Computer Science",
-              "title2": "University of Wisconsin-Madison",
-              "dates": "2009 - 2014",
-              "detail": ["Studying computer graphics and visualization under Professor Michael Gleicher. Conducting research on perceptually-motivated design for scalable data visualization. Also working on sketch based techniques for animation and modeling."],
-              "link": "http://pages.cs.wisc.edu/~adrm/Mayorga_CV.pdf"
+              "title1": "Bachelors of Science in Computer Science",
+              "title2": "University of Texas at Austin",
+              "dates": "2004 - 2008",
+              "detail": ["Special Departmental Honors: Turing Scholars Honors Program","Honors Thesis: \"A Combined Approach to Subsurface Scattering\"","GPA: 3.59/4.00"],
+              "link": "ftp://ftp.cs.utexas.edu/pub/techreports/honor_theses/cs-08-03-mayorga.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type"       : "full",
+      "title"      : "Experience",
+      "subsections" : [
+        {
+          "subtitle" : "Academia",
+          "items": [
+            {
+              "title1": "Graduate Researcher",
+              "title2": "CIBM Training Program",
+              "title3": "University of Wisconsin-Madison",
+              "dates": "2010 - 2012",
+              "detail": ["Perceptually-motivated abstraction techniques for large amounts of scatter plot data.","Using sketch based techniques for animation and modeling, making it easier to create high quality animations"],
+              "link": null
+            },
+            {
+              "title1": "Graduate Researcher",
+              "title2": "AOF Program",
+              "title3": "University of Wisconsin-Madison",
+              "dates": "2009 - 2010",
+              "detail": ["Developed a new technique for computing the solvent excluded surface of a protein based on level set methods"],
+              "link": null
             }
           ]
         },
         {
+          "subtitle" : "Industry",
+          "items": [
+            {
+              "title1": "Software Developer",
+              "title2": "Epic",
+              "title3": "Madison, WI",
+              "dates": "2013 - Present",
+              "detail": ["Part of the EpicCare Inpatient team.","Responsible for maintaining and enhancing clinical functionality used by nurses and doctors.","Full stack developer, UI, business logic, database server"],
+              "link": null
+            },
+            {
+              "title1": "Software Developer",
+              "title2": "Schlumberger Information Solutions",
+              "title3": "Houston, TX",
+              "dates": "2008 - 2009",
+              "detail": ["One of three developers in a team creating a domain specific database administration tool.","Responsible for some UI and business logic layer features."],
+              "link": null
+            },
+            {
+              "title1": "Software Developement Intern",
+              "title2": "IBM",
+              "title3": "Austin, TX",
+              "dates": "Summer 2007",
+              "detail": ["Maintained and added functionality to demo programs.","Created documentation for development framework."],
+              "link": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type"       : "full",
+      "title"      : "Projects and Research",
+      "subsections" : [
+        {
           "subtitle" : null,
           "items": [
             {
-              "title1": "PhD in Computer Science",
-              "title2": "University of Wisconsin-Madison",
-              "dates": "2009 - 2014",
-              "detail": [
-                "Studying computer graphics and visualization under Professor Michael Gleicher.",
-                "Conducting research on perceptually-motivated design for scalable data visualization.",
-                "Also working on sketch based techniques for animation and modeling."
-              ],
-              "link": "http://pages.cs.wisc.edu/~adrm/Mayorga_CV.pdf"
+              "title1": "Splatterplots",
+              "dates": "2010 - 2012",
+              "detail": ["Uses perceptual and abstraction techniques to allow the visualization of massive multidimensional datasets.","Abstraction is performed in visual space instead of data space. Allows for management of visual clutter in scatter plots."],
+              "link": null
             },
             {
-              "title1": "PhD in Computer Science",
-              "title2": "University of Wisconsin-Madison",
-              "dates": "2009 - 2014",
-              "detail": ["Studying computer graphics and visualization under Professor Michael Gleicher. Conducting research on perceptually-motivated design for scalable data visualization. Also working on sketch based techniques for animation and modeling."],
-              "link": "http://pages.cs.wisc.edu/~adrm/Mayorga_CV.pdf"
+              "title1": "Harmonious",
+              "dates": "Spring 2011",
+              "detail": ["Uses harmonious color templates and optimization techniques to automatically create sets of colors that work well together but are as perceptually different as possible"],
+              "link": "http://pages.cs.wisc.edu/~adrm/Harmonious/applet/"
+
+            },
+            {
+              "title1": "HOT CoCo",
+              "dates": "Fall 2010",
+              "detail": ["Hierarchical Focus + Context Code Coverage Visualizer. Uses a the intrinsic hierarchical nature of code to automatically group the code into a hierarchy","Code coverage information is shown at each level, with visual pointers to sibling and parent levels to keep the contex"]
+            },
+            {
+              "title1": "Volumetric Calculation of Solvent Excluded Surfaces",
+              "dates": "Fall 2009",
+              "detail": ["Computes the solvent excluded surface of a molecule using a signed distance transform and morphological operations.","Slower than current methods, but more robust and can handle larger molecules."]
             }
           ]
         }
@@ -57,34 +120,37 @@
       "title"        : "Publications",
       "publications" : [
         {
-          "authors" : "<em>Adrian Mayorga</em>, Supervised by Donald Fussell",
-          "title"   : "A Combined Approach to Subsurface Scattering",
-          "journal" : "Department of Computer Sciences, University of Texas at Austin",
-          "date"    : "June 2008",
-          "link"    : "ftp://ftp.cs.utexas.edu/pub/techreports/honor_theses/cs-08-03-mayorga.pdf"
-        },
-        {
           "authors" : "<em>Adrian Mayorga</em> and Michael Gleicher",
           "title"   : "Splatterplots: Overcoming Overdraw in Scatter Plots",
           "journal" : "IEEE Transactions on Visualization and Computer Graphics",
           "date"    : "19(9), 2013",
           "link"    : "http://graphics.cs.wisc.edu/Papers/2013/MG13/splatterplots-final.pdf"
+        },
+        {
+          "authors" : "<em>Adrian Mayorga</em>, Supervised by Donald Fussell",
+          "title"   : "A Combined Approach to Subsurface Scattering",
+          "journal" : "Department of Computer Sciences, University of Texas at Austin",
+          "date"    : "June 2008",
+          "link"    : "ftp://ftp.cs.utexas.edu/pub/techreports/honor_theses/cs-08-03-mayorga.pdf"
         }
       ]
     },
     {
       "type"         : "list",
       "title"        : "Skills",
-      "skills" : [
+      "sublists" : [
         {
           "title" : "Programming Languages",
           "items"   : ["C#","C", "C++", "Javascript","M/Cache", "SQL", "VB","Haskel","Scheme","Java","Python","HTML/CSS","Matlab"]
         },
         {
           "title" : "Frameworks / Libraries",
-          "items"   : ["OpenGL/GLSL","WebGL","ASP.Net","AngularJS","Bootstrap","G3D"]
+          "items"   : ["OpenGL/GLSL","WebGL","ASP.Net","AngularJS","Bootstrap","G3D", "OpenTK","Qt", "Boost"]
+        },
+        {
+          "title" : "Programming Technologies",
+          "items"   : ["Visual Studio", "Eclipse", "SVN", "Git", "Hg" ]
         }
-
       ]
     }
   ]
