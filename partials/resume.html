@@ -4,31 +4,34 @@
 </div>
 
 
-<div class="resume">
+<div class="resume row">
     <div class="resume-section" ng-repeat="section in sections">
-        <div class="resume-section-title">{{section.title}}</div>
-        <div ng-if="section.type==='full'">
-            <div ng-repeat="subsection in section.subsections">
-                <div class="resume-section-subtitle" ng-if="subsection.subtitle">{{subsection.subtitle}}</div>
-                <div class="resume-section-item" ng-repeat="item in subsection.items">
-                    <div class="row">
-                        <div class="col-sm-12">
+        <div class="col-sm-12" ng-if="section.type==='full'">
+            <div class="row">
+                <div class="resume-section-title col-xs-12">{{section.title}}</div>
+                <div  ng-repeat="subsection in section.subsections">
+                    <div class="resume-section-subtitle col-xs-12" ng-if="subsection.subtitle">{{subsection.subtitle}}</div>
+                    <div class="resume-section-item" ng-repeat="item in subsection.items">
+                        <!--<div class="col-xs-12">-->
                             <div class="row">
                                 <div class="resume-section-item-title1 col-sm-4">{{item.title1}}</div>
-                                <div ng-if="item.title2" class="resume-section-item-title2 col-sm-4">{{item.title2}}</div>
-                                <div ng-if="item.title3" class="resume-section-item-title3 col-sm-4">{{item.title3}}</div>
+                                <div ng-if="item.title2" class="resume-section-item-title2 col-sm-3">{{item.title2}}</div>
+                                <div ng-if="!item.title2" class="resume-section-item-title2 col-sm-3"></div>
+                                <div ng-if="item.title3" class="resume-section-item-title3 col-sm-3">{{item.title3}}</div>
+                                <div ng-if="!item.title3" class="resume-section-item-title2 col-sm-3"></div>
                                 <div class="resume-section-item-dates col-sm-2">{{item.dates}}</div>
+                                <ul>
+                                  <li class="resume-section-item-detail col-xs-12" ng-repeat="line in item.detail">{{line}}</li>
+                                  <li ng-if="item.link" class="col-xs-12"><a class="resume-section-item-link" href="{{item.link}}">{{item.link}}</a></li>
+                                </ul>
                             </div>
-                        </div>
+                        <!--</div>-->
                     </div>
-                    <ul>
-                      <li class="resume-section-item-detail" ng-repeat="line in item.detail">{{line}}</li>
-                    </ul>
-                    <a class="resume-section-item-link" href="{{item.link}}">{{item.link}}</a>
                 </div>
             </div>
         </div>
         <div ng-if="section.type==='pubs'">
+            <div class="resume-section-title col-xs-12">{{section.title}}</div>
             <div ng-repeat="pub in section.publications">
                 <div class="row">
                     <div  class="resume-section-pub col-sm-12">
@@ -41,12 +44,15 @@
                 </div>
             </div>
         </div>
-        <div ng-if="section.type==='list'">
+        <div class="col-sm-12"  ng-if="section.type==='list'">
             <div class="row">
-                <div class="col-sm-4" ng-repeat="sublist in section.sublists">
-                    <div class="resume-list-title">{{sublist.title}}</div>
+                <div class="resume-section-title col-xs-12">{{section.title}}</div>
+                <div class="col-sm-12">
                     <div class="row">
-                        <div ng-repeat="item in sublist.items" class="col-sm-3">{{item}}</div>
+                        <div class="col-sm-4" ng-repeat="sublist in section.sublists">
+                            <div class="resume-list-title">{{sublist.title}}</div>
+                            <span ng-repeat="item in sublist.items">{{( $first ? item :", " + item)}}</span>
+                        </div>
                     </div>
                 </div>
             </div>

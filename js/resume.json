@@ -8,8 +8,9 @@
           "subtitle" : null,
           "items": [
             {
-              "title1": "Masters of Science in in Computer Science",
+              "title1": "Masters of Science in Computer Science",
               "title2": "University of Wisconsin-Madison",
+              "title3": "Madison, WI",
               "dates": "2009 - 2011",
               "detail": ["GPA: 3.40/4.00"],
               "link": null
@@ -17,6 +18,7 @@
             {
               "title1": "Bachelors of Science in Computer Science",
               "title2": "University of Texas at Austin",
+              "title3": "Austin, TX",
               "dates": "2004 - 2008",
               "detail": ["Special Departmental Honors: Turing Scholars Honors Program","Honors Thesis: \"A Combined Approach to Subsurface Scattering\"","GPA: 3.59/4.00"],
               "link": "ftp://ftp.cs.utexas.edu/pub/techreports/honor_theses/cs-08-03-mayorga.pdf"
@@ -34,16 +36,16 @@
           "items": [
             {
               "title1": "Graduate Researcher",
-              "title2": "CIBM Training Program",
-              "title3": "University of Wisconsin-Madison",
+              "title2": "CIBM Training Program - University of Wisconsin-Madison",
+              "title3": "Madison, WI",
               "dates": "2010 - 2012",
               "detail": ["Perceptually-motivated abstraction techniques for large amounts of scatter plot data.","Using sketch based techniques for animation and modeling, making it easier to create high quality animations"],
               "link": null
             },
             {
               "title1": "Graduate Researcher",
-              "title2": "AOF Program",
-              "title3": "University of Wisconsin-Madison",
+              "title2": "AOF Program - University of Wisconsin-Madison",
+              "title3": "Madison, WI",
               "dates": "2009 - 2010",
               "detail": ["Developed a new technique for computing the solvent excluded surface of a protein based on level set methods"],
               "link": null
