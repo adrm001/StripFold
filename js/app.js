@@ -30,7 +30,7 @@ var app = (function () {
 
     app.controller('NavCtl',['$scope',
         function ($scope) {
-            $scope.tab = 'home';
+            //$scope.tab = 'home';
             $scope.select = function(tab){
                 $scope.tab = tab;
             }
@@ -55,11 +55,11 @@ var app = (function () {
         }
     ]);
 
-    app.addLogo = function (divID) {
+    app.addLogo = function (divID,scale) {
         var svgDiv = SVG(divID);
         var points = AM.Math.Vec2d.Array2DToVec($AM);
         var orig = new AM.Math.Vec2d(20, 180);
-        return new AM.PaperLetter(svgDiv, points, orig, 15, $primaryLight, $primaryDark);
+        return new AM.PaperLetter(svgDiv, points, orig, 15, $primaryLight, $primaryDark, scale);
     };
 
     return app;

@@ -92,7 +92,7 @@
               "title1": "Splatterplots",
               "dates": "2010 - 2012",
               "detail": ["Uses perceptual and abstraction techniques to allow the visualization of massive multidimensional datasets.","Abstraction is performed in visual space instead of data space. Allows for management of visual clutter in scatter plots."],
-              "link": null
+              "link": "http://graphics.cs.wisc.edu/Papers/2013/MG13/"
             },
             {
               "title1": "Harmonious",

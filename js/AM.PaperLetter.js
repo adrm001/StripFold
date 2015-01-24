@@ -1,6 +1,7 @@
-AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, backColorArg) {
+AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, backColorArg, scale) {
+    var $scale = scale || 1;
     var $svg = svgArg;
-    var $width = widthArg;
+    var $width = widthArg*$scale;
     var $fore = foreColorArg;
     var $back = backColorArg;
     var $points = [];
@@ -271,7 +272,7 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
         for (var i = 0; i < pointsArg.length; i++) {
             var x = pointsArg[i].x;
             var y = pointsArg[i].y;
-            prev = new Point(x + $pos.x, y+ $pos.y, prev);
+            prev = new Point((x + $pos.x)*$scale, (y+ $pos.y)*$scale, prev);
             $points.push(prev);
         }
         $points.forEach(function ($p) {
