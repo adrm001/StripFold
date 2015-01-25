@@ -33,7 +33,7 @@ var app = (function () {
             //$scope.tab = 'home';
             $scope.select = function(tab){
                 $scope.tab = tab;
-            }
+            };
         }
     ]);
 
@@ -52,6 +52,11 @@ var app = (function () {
             $http.get('js/resume.json').success(function(data){
                 $scope.sections = data.sections;
             });
+            $scope.collapseSection = function (section) {
+                section.collapsed = section.collapsed || false;
+                section.collapsed = ! section.collapsed;
+                alert("test "+section.title+" "+section.collapsed);
+            };
         }
     ]);
 

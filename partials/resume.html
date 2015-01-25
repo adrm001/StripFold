@@ -9,17 +9,17 @@
                 <div class="resume-section" ng-repeat="section in sections">
                 <div class="col-sm-12" ng-if="section.type==='full'">
                     <div class="row">
-                        <div class="resume-section-title col-xs-12">{{section.title}}</div>
+                        <div ng-click="collapseSection(section)" class="resume-section-title col-xs-12">{{section.title}}</div>
                         <div  ng-repeat="subsection in section.subsections">
                             <div class="resume-section-subtitle col-xs-12" ng-if="subsection.subtitle">{{subsection.subtitle}}</div>
                             <div class="resume-section-item" ng-repeat="item in subsection.items">
                                 <!--<div class="col-xs-12">-->
                                     <div class="row">
-                                        <div class="resume-section-item-title1 col-sm-4">{{item.title1}}</div>
-                                        <div ng-if="item.title2" class="resume-section-item-title2 col-sm-3">{{item.title2}}</div>
-                                        <div ng-if="!item.title2" class="resume-section-item-title2 col-sm-3"></div>
-                                        <div ng-if="item.title3" class="resume-section-item-title3 col-sm-3">{{item.title3}}</div>
-                                        <div ng-if="!item.title3" class="resume-section-item-title2 col-sm-3"></div>
+                                        <div class="col-sm-10">
+                                            <span class="resume-section-item-title1">{{item.title1}}</span>
+                                            <span ng-if="item.title2" class="resume-section-item-title2">~ {{item.title2}}</span>
+                                            <span ng-if="item.title3" class="resume-section-item-title3">~ {{item.title3}}</span>
+                                        </div>
                                         <div class="resume-section-item-dates col-sm-2">{{item.dates}}</div>
                                         <ul>
                                           <li class="resume-section-item-detail col-xs-12" ng-repeat="line in item.detail">{{line}}</li>
