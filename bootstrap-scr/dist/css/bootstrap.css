@@ -3156,7 +3156,9 @@ input[type="button"].btn-block {
   width: 100%;
 }
 .resume {
+  padding: 10px;
   margin-bottom: 30px;
+  overflow: visible;
   font-size: small;
   color: #555;
   background-color: #d5f5fc;
@@ -3172,7 +3174,7 @@ input[type="button"].btn-block {
   color: #b25300;
 }
 .resume-section-subtitle {
-  padding-left: 10px;
+  padding-left: 20px;
   font-weight: bold;
   color: #b25300;
 }
@@ -3193,6 +3195,7 @@ input[type="button"].btn-block {
 }
 .resume-section-item-link {
   padding-left: 10px;
+  word-break: break-all;
 }
 .resume-section-pub {
   padding-bottom: 10px;
@@ -3200,8 +3203,11 @@ input[type="button"].btn-block {
 }
 .resume-section-pub-authors em {
   font-style: normal;
-  font-weight: normal;
+  font-weight: bold;
   color: #0094b2;
+}
+.resume-section-pub-link {
+  word-break: break-all;
 }
 .resume-list-title {
   font-weight: bold;

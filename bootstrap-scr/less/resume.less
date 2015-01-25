@@ -4,10 +4,12 @@
 
 .resume {
   background-color: lighten(@brand-light1,6%);
-  .BoxShadowHelper(2);
   color: @gray;
-  margin-bottom: 30px;
   font-size: small;
+  padding: 10px;
+  margin-bottom: 30px;
+  .BoxShadowHelper(2);
+  overflow: visible;
 }
 .resume-section {
   padding: 10px;
@@ -20,7 +22,7 @@
 .resume-section-subtitle {
   color: @brand-dark9;
   font-weight: bold;
-  padding-left: 10px;
+  padding-left: 20px;
 }
 .resume-section-item {
   padding: 0 10px 10px 25px;
@@ -42,13 +44,14 @@
 }
 .resume-section-item-link {
   padding-left: 10px;
+  word-break: break-all;
 }
 .resume-section-pub{
   padding-left: 45px;
   padding-bottom: 10px;
 }
 .resume-section-pub-authors em{
-  font-weight: normal;
+  font-weight: bold;
   font-style: normal;
   color: @brand-dark7;
 }
@@ -62,7 +65,7 @@
 
 }
 .resume-section-pub-link{
-
+  word-break: break-all;
 }
 .resume-list-title{
   font-weight: bold;
