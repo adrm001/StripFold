@@ -4,7 +4,7 @@ var app = (function () {
     var $primaryLight = window.getComputedStyle(document.getElementById('brand-light1'), null).color;//'#0094B2';
     var $AMLogo;
 
-    var app = angular.module('main', ['ngSanitize','ngRoute']);
+    var app = angular.module('main', ['ngSanitize','ngRoute','ngAnimate']);
     //define routes
     app.config(['$routeProvider',
         function ($routeProvider) {
@@ -51,11 +51,11 @@ var app = (function () {
         function($scope,$http){
             $http.get('js/resume.json').success(function(data){
                 $scope.sections = data.sections;
+                $scope.sections.forEach( function(section){section.collapsed=false;});
             });
+
             $scope.collapseSection = function (section) {
-                section.collapsed = section.collapsed || false;
                 section.collapsed = ! section.collapsed;
-                alert("test "+section.title+" "+section.collapsed);
             };
         }
     ]);

@@ -43,3 +43,16 @@
   margin:0 15px;
   width:150px;
 }
+.animate-hide {
+    -webkit-transition: all linear .5s;
+    transition: all linear .5s;
+    opacity: 1;
+    max-height: 2000px;
+    line-height: 1.5;
+
+}
+.animate-hide.ng-hide {
+    max-height: 0;
+    opacity: 0;
+    line-height: 0;
+}
