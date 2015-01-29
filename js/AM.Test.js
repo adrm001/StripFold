@@ -43,7 +43,7 @@ AM.Test.prototype = {
         points.forEach(function (elem) {
             points2d.push([elem.x,elem.y]);
         });
-        points = AM.Math.Vec2d.Array2DToVec(M);
+
         this.letter = new AM.PaperLetter(svg, points, orig, width, '#0099CC', '#26697F');
     },
     hidePoints: function () {
@@ -328,10 +328,12 @@ AM.Edge.prototype = {
             [d.x, d.y]
         ];
     },
-    straighten: function () {
+    straighten: function (dirAngle) {
         if (!this.next) {
             return;
         }
+        dirAngle = dirAngle % 360;
+        var dir = new AM.Math.Vec2d(Math.cos(AM.Math.ToRad(dirAngle)),Math.sin(AM.Math.ToRad(dirAngle)));
         var center = AM.Math.Vec2d.lerp(this.top, this.bot, .5);
         var dest = AM.Math.Vec2d.lerp(this.next.top, this.next.bot, .5);
         var toDes = dest.subtract(center).norm();

@@ -189,16 +189,17 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
                 [d.x, d.y]
             ];
         },
-        straighten: function () {
+        straighten: function (dirAngle) {
             if (!this.next) {
                 return;
             }
-
+            dirAngle = dirAngle % 360;
+            var dir = new $$Vec2d(Math.cos(AM.Math.ToRad(dirAngle)),Math.sin(AM.Math.ToRad(dirAngle)));
             var center = $$Vec2d.lerp(this.top, this.bot, .5);
             var dest = $$Vec2d.lerp(this.next.top, this.next.bot, .5);
             var toDes = dest.subtract(center).norm();
-            var angle = toDes.angle(new $$Vec2d(1, 0));
-            var cross = toDes.cross(new $$Vec2d(1, 0));
+            var angle = toDes.angle(dir);
+            var cross = toDes.cross(dir);
             if (cross < 0) {
                 angle = -angle;
             }
@@ -349,7 +350,7 @@ AM.PaperLetter = function (svgArg, pointsArg, position, widthArg, foreColorArg, 
             prev = $edges[$edges.length - 1];
         }, this);
         this.foldIndex = 0;
-        var ret = $edges[0].straighten();
+        var ret = $edges[0].straighten(0);
         $center = ret.center;
         $angle = ret.angle;
     }
