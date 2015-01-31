@@ -3,6 +3,7 @@ var app = (function () {
     var $primaryDark = window.getComputedStyle(document.getElementById('brand-dark7'), null).color;//'#B2DFDB';
     var $primaryLight = window.getComputedStyle(document.getElementById('brand-light1'), null).color;//'#0094B2';
     var $AMLogo;
+    var $navTab = 'home';
 
     var app = angular.module('main', ['ngSanitize','ngRoute','ngAnimate']);
     //define routes
@@ -10,17 +11,18 @@ var app = (function () {
         function ($routeProvider) {
             $routeProvider.
                 when('/home', {
-                    templateUrl: 'partials/about.html'
+                    templateUrl: function(){$navTab = 'home'; return 'partials/about.html';}
                 }).
                 when('/projects', {
-                    templateUrl: 'partials/projects.html'
+                    templateUrl: function(){$navTab = 'projects'; return 'partials/projects.html';},
+                    controller: 'ProjectsCtl'
                 }).
                 when('/resume', {
-                    templateUrl: 'partials/resume.html',
+                    templateUrl: function(){$navTab = 'resume'; return 'partials/resume.html';},
                     controller: 'ResumeCtl'
                 }).
                 when('/contact', {
-                    templateUrl: 'partials/contact.html'
+                    templateUrl: function(){$navTab = 'contact'; return 'partials/contact.html';}
                 }).
                 otherwise({
                     redirectTo: '/home'
@@ -30,9 +32,11 @@ var app = (function () {
 
     app.controller('NavCtl',['$scope',
         function ($scope) {
-            //$scope.tab = 'home';
+            $scope.tabIs = function(tab){
+               return $navTab === tab;
+            };
             $scope.select = function(tab){
-                $scope.tab = tab;
+                $navTab = tab;
             };
         }
     ]);
@@ -49,7 +53,7 @@ var app = (function () {
 
     app.controller('ResumeCtl',['$scope','$http',
         function($scope,$http){
-            $http.get('js/resume.json').success(function(data){
+            $http.get('assets/resume.json').success(function(data){
                 $scope.sections = data.sections;
                 $scope.sections.forEach( function(section){section.collapsed=false;});
             });
@@ -57,6 +61,14 @@ var app = (function () {
             $scope.collapseSection = function (section) {
                 section.collapsed = ! section.collapsed;
             };
+        }
+    ]);
+
+    app.controller('ProjectsCtl',['$scope','$http',
+        function($scope,$http){
+            $http.get('assets/projectTeasers.json').success(function(data){
+                $scope.teasers = data.teasers;
+            });
         }
     ]);
 

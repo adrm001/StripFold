@@ -44,10 +44,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li ng-class="{active: tab==='home'}"><a ng-click="select('home')" href="#/home">Home</a></li>
-                <li ng-class="{active: tab==='projects'}"><a ng-click="select('projects')" href="#/projects">Projects and Research</a></li>
-                <li ng-class="{active: tab==='resume'}"><a ng-click="select('resume')" href="#/resume">Resume</a></li>
-                <li ng-class="{active: tab==='contact'}"><a ng-click="select('contact')" href="#/contact">Contact</a></li>
+                <li ng-class="{active: tabIs('home')}"><a ng-click="select('home')" href="#/home">Home</a></li>
+                <li ng-class="{active: tabIs('projects')}"><a ng-click="select('projects')" href="#/projects">Projects and Research</a></li>
+                <li ng-class="{active: tabIs('resume')}"><a ng-click="select('resume')" href="#/resume">Resume</a></li>
+                <li ng-class="{active: tabIs('contact')}"><a ng-click="select('contact')" href="#/contact">Contact</a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->

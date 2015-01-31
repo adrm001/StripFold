@@ -1,0 +1,46 @@
+{
+  "teasers": [
+    {
+      "image":"assets/splatterplots/teaser.png",
+      "description":"Splatterplots is a novel presentation of scattered data that enables visualizations that scale beyond standard scatter plots. Splatterplots abstract away information such that the density of data shown in any unit of screen space is bounded, while allowing continuous zoom to reveal abstracted details. Abstraction automatically groups dense data points into contours and samples remaining points",
+      "title": "Splatterplots",
+      "link":"https://graphics.cs.wisc.edu/Papers/2013/MG13/"
+    },
+    {
+      "image":"assets/splatterplots/teaser.png",
+      "description":"Splatterplots is a novel presentation of scattered data that enables visualizations that scale beyond standard scatter plots. Traditional scatter plots suffer from overdraw (overlapping glyphs) as the number of points per unit area increases. Overdraw obscures outliers, hides data distributions, and makes the relationship among subgroups of the data difficult to discern. To address these issues, Splatterplots abstract away information such that the density of data shown in any unit of screen space is bounded, while allowing continuous zoom to reveal abstracted details. Abstraction automatically groups dense data points into contours and samples remaining points",
+      "title": "Splatterplots",
+      "link":"https://graphics.cs.wisc.edu/Papers/2013/MG13/"
+    },
+    {
+      "image":"assets/splatterplots/teaser.png",
+      "description":"Splatterplots is a novel presentation of scattered data that enables visualizations that scale beyond standard scatter plots. Traditional scatter plots suffer from overdraw (overlapping glyphs) as the number of points per unit area increases. Overdraw obscures outliers, hides data distributions, and makes the relationship among subgroups of the data difficult to discern. To address these issues, Splatterplots abstract away information such that the density of data shown in any unit of screen space is bounded, while allowing continuous zoom to reveal abstracted details. Abstraction automatically groups dense data points into contours and samples remaining points",
+      "title": "Splatterplots",
+      "link":"https://graphics.cs.wisc.edu/Papers/2013/MG13/"
+    },
+    {
+      "image":"assets/splatterplots/teaser.png",
+      "description":"Splatterplots is a novel presentation of scattered data that enables visualizations that scale beyond standard scatter plots. Traditional scatter plots suffer from overdraw (overlapping glyphs) as the number of points per unit area increases. Overdraw obscures outliers, hides data distributions, and makes the relationship among subgroups of the data difficult to discern. To address these issues, Splatterplots abstract away information such that the density of data shown in any unit of screen space is bounded, while allowing continuous zoom to reveal abstracted details. Abstraction automatically groups dense data points into contours and samples remaining points",
+      "title": "Splatterplots",
+      "link":"https://graphics.cs.wisc.edu/Papers/2013/MG13/"
+    },
+    {
+      "image":"assets/splatterplots/teaser.png",
+      "description":"Splatterplots is a novel presentation of scattered data that enables visualizations that scale beyond standard scatter plots. Traditional scatter plots suffer from overdraw (overlapping glyphs) as the number of points per unit area increases. Overdraw obscures outliers, hides data distributions, and makes the relationship among subgroups of the data difficult to discern. To address these issues, Splatterplots abstract away information such that the density of data shown in any unit of screen space is bounded, while allowing continuous zoom to reveal abstracted details. Abstraction automatically groups dense data points into contours and samples remaining points",
+      "title": "Splatterplots",
+      "link":"https://graphics.cs.wisc.edu/Papers/2013/MG13/"
+    },
+    {
+      "image":"assets/splatterplots/teaser.png",
+      "description":"Splatterplots is a novel presentation of scattered data that enables visualizations that scale beyond standard scatter plots. Traditional scatter plots suffer from overdraw (overlapping glyphs) as the number of points per unit area increases. Overdraw obscures outliers, hides data distributions, and makes the relationship among subgroups of the data difficult to discern. To address these issues, Splatterplots abstract away information such that the density of data shown in any unit of screen space is bounded, while allowing continuous zoom to reveal abstracted details. Abstraction automatically groups dense data points into contours and samples remaining points",
+      "title": "Splatterplots",
+      "link":"https://graphics.cs.wisc.edu/Papers/2013/MG13/"
+    },
+    {
+      "image":"assets/splatterplots/teaser.png",
+      "description":"Splatterplots is a novel presentation of scattered data that enables visualizations that scale beyond standard scatter plots. Traditional scatter plots suffer from overdraw (overlapping glyphs) as the number of points per unit area increases. Overdraw obscures outliers, hides data distributions, and makes the relationship among subgroups of the data difficult to discern. To address these issues, Splatterplots abstract away information such that the density of data shown in any unit of screen space is bounded, while allowing continuous zoom to reveal abstracted details. Abstraction automatically groups dense data points into contours and samples remaining points",
+      "title": "Splatterplots",
+      "link":"https://graphics.cs.wisc.edu/Papers/2013/MG13/"
+    }
+  ]
+}

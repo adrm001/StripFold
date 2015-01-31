@@ -15,8 +15,8 @@ module.exports = function(grunt) {
                 dest: 'publish/',
                 expand: true
             },
-            media: {
-                src: ['media/*','!media/*.db'],
+            assets: {
+                src: ['assets/**','!assets/*.db'],
                 dest: 'publish/',
                 expand: true
             },
