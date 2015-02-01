@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                 expand:true
             },
             html:{
-                src: ['index.html','test.html','partials/*'],
+                src: ['index.html','test.html','partials/**'],
                 dest: 'publish/',
                 expand: true
             }

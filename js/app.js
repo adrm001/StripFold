@@ -6,6 +6,7 @@ var app = (function () {
     var $navTab = 'home';
 
     var app = angular.module('main', ['ngSanitize','ngRoute','ngAnimate']);
+
     //define routes
     app.config(['$routeProvider',
         function ($routeProvider) {
@@ -23,6 +24,9 @@ var app = (function () {
                 }).
                 when('/contact', {
                     templateUrl: function(){$navTab = 'contact'; return 'partials/contact.html';}
+                }).
+                when('/projects/:projectId',{
+                    templateUrl:function($params){$navTab = 'projects'; return 'partials/projects/' + $params.projectId + '.html';}
                 }).
                 otherwise({
                     redirectTo: '/home'
