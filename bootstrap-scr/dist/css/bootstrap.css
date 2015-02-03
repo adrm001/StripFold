@@ -208,7 +208,6 @@ th {
   *,
   *:before,
   *:after {
-    color: #000 !important;
     text-shadow: none !important;
     background: transparent !important;
     -webkit-box-shadow: none !important;
@@ -217,12 +216,6 @@ th {
   a,
   a:visited {
     text-decoration: underline;
-  }
-  a[href]:after {
-    content: " (" attr(href) ")";
-  }
-  abbr[title]:after {
-    content: " (" attr(title) ")";
   }
   a[href^="#"]:after,
   a[href^="javascript:"]:after {

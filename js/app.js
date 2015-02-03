@@ -48,9 +48,14 @@ var app = (function () {
     app.controller('ViewCtl',['$scope',
         function($scope){
             $scope.$on('$viewContentLoaded',function(){
-                $AMLogo = app.addLogo('AMLogo');
-                $('#AMLogo').on('click',$AMLogo.FoldUnfold.bind($AMLogo));
-                //$AMLogo.FoldUnfold();
+                if($navTab === 'home') {
+                    $AMLogo = app.addLogo('AMLogo');
+                    $('#AMLogo').on('click', $AMLogo.FoldUnfold.bind($AMLogo));
+                    //$AMLogo.FoldUnfold();
+                }
+                if($navTab === 'resume') {
+                    app.addLogo('AMLogoResume');
+                }
             })
         }
     ]);

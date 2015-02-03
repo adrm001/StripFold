@@ -1,11 +1,32 @@
 <div class="container">
-    <div class="jumbotron">
+    <div class="jumbotron hidden-print">
         <h1>Resume</h1>
         <p>A quick summary of my education, experience and projects.</p>
+        <a class="btn btn-primary" href="assets/Adrian Mayorga.pdf"> Click here for a PDF version</a>
     </div>
     <!--<div class="row">-->
         <div class="resume">
             <div class="row">
+                <div  class="visible-print-block">
+                    <div class="col-xs-2">
+                        <svg style="width: 110px;height: 110px;" id="AMLogoResume" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 190">
+
+                        </svg>
+                    </div>
+                    <div class="col-xs-6">
+                        <h1>Adrian Mayorga</h1>
+                        <h3><a href="http://adrianm.net">http://adrianm.net</a></h3>
+                    </div>
+                    <div class="col-xs-4">
+                        <br>
+                        <div>
+                            <span class="glyphicon glyphicon-phone-alt"></span><span> 713-410-1941</span>
+                        </div>
+                        <div>
+                            <span class="glyphicon glyphicon-envelope"></span><span> adr.mayorga@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="resume-section" ng-repeat="section in sections">
                 <div class="col-xs-12" ng-if="section.type==='full'">
                     <div class="row">

@@ -3,11 +3,12 @@
         <h1>Splatterplots</h1>
         <p>A technique for muticlass scatter plots with millions of points.</p>
     </div>
-    <div>
+    <div class="projectContent">
         <p>
-            Splatterplots is a visualization technique that I developed working with Michael Gleicher during my time in graduate school.
+            Splatterplots is a visualization technique that I developed working with <a href="http://pages.cs.wisc.edu/~gleicher/">Michael Gleicher</a> during my time in graduate school.
             Traditional scatter plots are a great visualization tool, but they suffer from a over plotting (or over draw) when one tries to plot
-            too many points at once. Over plotting occurs when the symbols used to represent points start to overlap. Another issue that occurs is visual clutter.
+            too many points at once. Over plotting occurs when the symbols used to represent points start to overlap.
+            Another issue that occurs is visual clutter, making it much harder to mentally separate different groups of points within the graph.
             Splatterplots use abstraction in order to avoid both of these issues.
         </p>
 
@@ -29,6 +30,22 @@
                 </div>
             </div>
         </div>
+
+        <p>
+            Splatterplots is implemented in a way that heavily leverages the graphics card. This allows it to handle several million points at once.
+            Check out the video below for an explanation/demo.
+            You can also check out the full details by reading the paper we published in IEEE Transactions on Visualization and Computer Graphics.
+            <a class="btn btn-primary" href="https://graphics.cs.wisc.edu/Papers/2013/MG13/splatterplots-final.pdf"> Click here to download the paper</a>
+        </p>
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/9Uipb3MXaek" allowfullscreen></iframe>
+        </div>
+        <br>
+        <p>
+            There is also a WebGL port of splatterplots developed by <a href="http://pages.cs.wisc.edu/~sarikaya/"> Alper Sarikaya</a>.
+            <a class="btn btn-primary" href="http://graphics.cs.wisc.edu/Projects/SplatterJs/"> Click here to check out splatterplots in your browser!</a>
+        </p>
+
     </div>
 
 
