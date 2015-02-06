@@ -1,5 +1,5 @@
 #drawing{
-  width:  1500px;
+  width:  500px;
   height: 500px;
   border: 2px solid green;
   position:relative;
@@ -47,7 +47,8 @@
   margin:0 15px;
   width:150px;
 }
-.animate-hide {
+.animate-hide
+{
     -webkit-transition: all linear .5s;
     transition: all linear .5s;
     opacity: 1;
@@ -55,8 +56,16 @@
     line-height: 1.5;
 
 }
-.animate-hide.ng-hide {
+.animate-hide.ng-hide
+{
     max-height: 0;
     opacity: 0;
     line-height: 0;
+}
+.demoFrame
+{
+    width: 600px;
+    height: 600px;
+    overflow: hidden;
+    margin: auto;
 }
